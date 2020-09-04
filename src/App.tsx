@@ -1,24 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="h-screen flex flex-col items-center justify-center">
+      <h1 className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-300 text-5xl font-extrabold">React.tsx</h1>
+      <h1 className="text-transparent bg-clip-text bg-gradient-to-l from-teal-600 to-teal-500 text-5xl font-bold">Tailwind <span className="font-extrabold">CSS</span></h1>
     </div>
   );
 }
