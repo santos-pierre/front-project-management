@@ -1,13 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useForm } from "react-hook-form";
+import usersClient from '../../../api/users/usersClient';
+import { useHistory } from 'react-router-dom';
+import { setCurrentUser } from '../../../redux/user/userAction';
+import { useDispatch } from 'react-redux';
+
 import Footer from '../../Footer/Footer';
 
 import imgLogin from './../../../assets/img/login_img.png';
 import logo from './../../../assets/img/logo_big.png';
+import { UserType } from '../../../types/UserType';
+
+
+type Inputs = {
+    email: string,
+    password: string,
+};
+
+type Errors = {
+    email: Array<string>
+}
 
 export default () => {
+    const { handleSubmit, register } = useForm<Inputs>();
+    const [errors, setErrors] = useState<Errors>();
+    const history = useHistory();
+
+    const dispatch = useDispatch();
+
+    const setUser = useCallback((user: UserType) => {
+        dispatch(setCurrentUser(user));
+    }, [dispatch]);
+
+    const onSubmit = async (data: Object) => {
+        try {
+            await usersClient.login(data);
+            const currentUser = await usersClient.currentUser();
+            setUser({ ...currentUser.data, isAuthenticated: true });
+            history.push('/');
+        } catch (error) {
+            if (error.data.errors) {
+                setErrors(error.data.errors);
+            }
+        }
+    };
+
+    const InputStyles = {
+        normal: 'focus:border-blue-300 focus:shadow-outline-blue border-gray-300',
+        errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
+    }
+
     useEffect(() => {
         document.title = 'Projects - Sign in';
     }, []);
+
     return (
         <div className="min-h-screen bg-white flex">
             <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-40">
@@ -27,21 +73,22 @@ export default () => {
                             */}
                             {/* FORM  */}
                             <div className="mt-6">
-                                <form action="#" method="POST" className="space-y-6">
+                                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                                     <div>
                                         <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
                                             Email address
                                         </label>
                                         <div className="mt-1 rounded-md shadow-sm">
-                                            <input id="email" type="email" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                            <input id="email" type="email" required className={`appearance-none block w-full px-3 py-2 border  rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors ? InputStyles.errors : InputStyles.normal}`} name="email" ref={register} />
                                         </div>
+                                        {errors?.email && <label className="text-red-500 text-sm">{errors.email[0]}</label>}
                                     </div>
                                     <div>
                                         <label htmlFor="password" className="block text-sm font-medium leading-5 text-gray-700">
                                             Password
                                         </label>
                                         <div className="mt-1 rounded-md shadow-sm">
-                                            <input id="password" type="password" required className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" />
+                                            <input id="password" type="password" required className={`appearance-none block w-full px-3 py-2 border  rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors ? InputStyles.errors : InputStyles.normal}`} name="password" ref={register} />
                                         </div>
                                     </div>
                                     <div>

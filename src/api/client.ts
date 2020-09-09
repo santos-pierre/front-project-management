@@ -11,8 +11,8 @@ const getClient = (baseURL?: string): AxiosInstance => {
 
     let client = axios.create(options);
 
-    const handleResponse = ({ data }: AxiosResponse) => {
-        return data;
+    const handleResponse = (response: AxiosResponse) => {
+        return Promise.resolve(response.data);
     };
 
     const handleError = (error: AxiosError) => {
