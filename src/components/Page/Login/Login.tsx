@@ -10,6 +10,7 @@ import Footer from '../../Footer/Footer';
 import imgLogin from './../../../assets/img/login_img.png';
 import logo from './../../../assets/img/logo_big.png';
 import { UserType } from '../../../types/UserType';
+import { getRoute } from '../../../routes/routes';
 
 
 type Inputs = {
@@ -37,10 +38,12 @@ export default () => {
             await usersClient.login(data);
             const currentUser = await usersClient.currentUser();
             setUser({ ...currentUser.data, isAuthenticated: true });
-            history.push('/');
+            history.push(getRoute('dashboard').path);
         } catch (error) {
-            if (error.data.errors) {
+            if (error && error.data.errors) {
                 setErrors(error.data.errors);
+            } else {
+                setErrors({ email: ['Server Problem, please try later'] })
             }
         }
     };
@@ -60,10 +63,14 @@ export default () => {
                 <div className="mx-auto w-full max-w-sm lg:w-96">
                     {/* Header Title + Logo */}
                     <div>
-                        <img className="h-12 w-auto" src={logo} alt="Workflow" />
+                        <img className="h-12 w-auto" src={logo} alt="project management" />
                         <h2 className="mt-6 text-3xl leading-9 font-extrabold text-gray-900">
                             Log in to your account
                         </h2>
+                        <p className="mt-2 text-sm leading-5 text-gray-600 max-w">
+                            Or
+                            <a href={getRoute('register').path} className="font-medium text-orange-600 hover:text-orange-500 focus:outline-none focus:underline transition ease-in-out duration-150"> create a new account</a>
+                        </p>
                     </div>
                     {/* END Header Title + Logo */}
                     <div className="mt-8">
@@ -106,7 +113,7 @@ export default () => {
                 </div>
             </div>
             <div className="hidden lg:block relative w-0 flex-1">
-                <img className="absolute right-0 h-full w-full lg:object-scale-down xl:object-fill" src={imgLogin} alt="" />
+                <img className="absolute right-0 h-full w-full object-scale-down" src={imgLogin} alt="project management" />
             </div>
             <Footer customClass="w-full absolute bottom-0" />
         </div>

@@ -13,10 +13,14 @@ export default {
     },
 
     registerUser(data: object) {
-        return client.post('/register', data);
+        return client.post('register', data);
     },
 
     logout() {
-        return client.post('/logout');
+        return client.post('logout');
+    },
+
+    emailAlreadyTaken(data: object) {
+        return client.post('/user/exist/email', data);
     }
 }
