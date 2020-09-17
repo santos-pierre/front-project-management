@@ -1,7 +1,13 @@
 import React from "react";
+import MainLayout from './Layouts/MainLayout/MainLayout';
+import Navbar from './Navbar/Navbar';
+
+
 
 export default () => {
     return (
-        <h1>Dashboard page</h1>
+        <MainLayout>
+            <Navbar mainColor="orange" colorIntensity="600" />
+        </MainLayout>
     )
 }
