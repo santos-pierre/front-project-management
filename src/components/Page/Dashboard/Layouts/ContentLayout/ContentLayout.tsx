@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 export default ({ left, center }: { left: ReactElement, center: ReactElement }) => {
     return (

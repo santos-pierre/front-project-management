@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import logo from './../../../assets/img/logo_big.png';
 import { getRoute } from "../../../routes/routes";
@@ -73,13 +73,17 @@ export default () => {
     const { register, handleSubmit, errors, getValues } = useForm<Inputs>();
 
     const history = useHistory();
+    const [isLoading, setLoading] = useState(false);
 
     const onSubmit = async (data: object) => {
+        setLoading(true);
         if (Object.keys(errors).length === 0) {
             try {
                 await usersClient.registerUser(data);
+                setLoading(false);
                 history.push(getRoute('login').path);
             } catch (error) {
+                setLoading(false);
                 console.log(error);
             }
         }
@@ -155,9 +159,13 @@ export default () => {
                         </div>
 
                         <div className="mt-6">
-                            <span className="block w-full rounded-md shadow-sm">
-                                <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition duration-150 ease-in-out">
+                            <span className="block w-full rounded-md shadow-sm" >
+                                <button type="submit" disabled={isLoading} className={`w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${!isLoading ? 'bg-orange-600' : 'cursor-not-allowed bg-orange-400'} hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition duration-150 ease-in-out`}>
                                     Register
+                                    <svg className={`animate-spin mr-3 h-5 w-5 text-white inline ml-2 ${isLoading ? 'block' : 'hidden'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
                                 </button>
                             </span>
                         </div>

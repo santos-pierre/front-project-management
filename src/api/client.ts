@@ -12,7 +12,7 @@ const getClient = (baseURL?: string): AxiosInstance => {
     let client = axios.create(options);
 
     const handleResponse = (response: AxiosResponse) => {
-        return Promise.resolve(response);
+        return Promise.resolve(response.data);
     };
 
     const handleError = (error: AxiosError) => {

@@ -1,23 +1,29 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { getRoute } from '../../routes/routes';
 import Dashboard from '../Page/Dashboard/Dashboard';
 import Login from '../Page/Login/Login';
 import Register from '../Page/Register/Register';
+import GuardedRoute from '../GuardedRoute/GuardedRoute';
+import PropsTypes, { InferProps } from "prop-types";
 
 
-export default () => {
+function RouterSwitch({ isAuth }: InferProps<typeof RouterSwitch.propsTypes>) {
     return (
         <Switch>
-            <Route path={getRoute('dashboard').path} exact>
-                <Dashboard />
-            </Route>
+            <GuardedRoute component={Dashboard} path={getRoute('dashboard').path} exact auth={isAuth} />
             <Route path={getRoute('login').path}>
-                <Login />
+                {isAuth ? <Redirect to={getRoute('dashboard').path} /> : <Login />}
             </Route>
             <Route path={getRoute('register').path}>
-                <Register />
+                {isAuth ? <Redirect to={getRoute('dashboard').path} /> : <Register />}
             </Route>
         </Switch>
     )
 }
+
+RouterSwitch.propsTypes = {
+    isAuth: PropsTypes.bool.isRequired
+}
+
+export default RouterSwitch;
