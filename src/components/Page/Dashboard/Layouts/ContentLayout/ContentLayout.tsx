@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-export default ({ left, center }: { left: ReactElement, center: ReactElement }) => {
+export default ({ left, center }: { left?: ReactElement, center?: ReactElement }) => {
     return (
         <div className="flex-grow w-full max-w-7xl mx-auto xl:px-8 lg:flex">
             <div className="flex-1 min-w-0 bg-white xl:flex">
