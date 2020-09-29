@@ -5,7 +5,6 @@ import { ProjectType } from "../../../../types/ProjectType";
 import Loading from "../../../Loading/Loading";
 import ContentLayout from "../Layouts/ContentLayout/ContentLayout";
 import MainLayout from "../Layouts/MainLayout/MainLayout";
-import Navbar from "../Navbar/Navbar";
 import ProjectInfo from "./ProjectInfo";
 
 
@@ -33,7 +32,6 @@ export default () => {
 
     return (
         <MainLayout>
-            <Navbar mainColor="orange" colorIntensity="600" />
             <ContentLayout left={isLoading ? <Loading /> : <ProjectInfo project={project} />}></ContentLayout>
         </MainLayout >
     )

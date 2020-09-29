@@ -1,5 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getRoute } from '../../../../routes/routes';
 import { RootState } from '../../../../types/RooState';
 
 export default () => {
@@ -25,11 +27,11 @@ export default () => {
                             </div>
                         </div>
                         <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
-                            <span className="inline-flex rounded-md shadow-sm">
+                            <Link to={getRoute('projects-create').path} className="inline-flex rounded-md shadow-sm">
                                 <button type="button" className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150">
                                     New Project
                                 </button>
-                            </span>
+                            </Link>
                         </div>
                     </div>
                 </div>

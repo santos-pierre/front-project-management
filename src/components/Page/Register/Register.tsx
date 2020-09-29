@@ -7,19 +7,19 @@ import { useForm } from "react-hook-form";
 import usersClient from '../../../api/users/usersClient';
 import { useHistory } from "react-router-dom";
 
+type Inputs = {
+    name: string,
+    email: string,
+    password: string,
+    password_confirmation: string
+};
+
+const InputStyles = {
+    normal: 'focus:border-blue-300 focus:shadow-outline-blue border-gray-300',
+    errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
+}
+
 export default () => {
-
-    type Inputs = {
-        name: string,
-        email: string,
-        password: string,
-        password_confirmation: string
-    };
-
-    const InputStyles = {
-        normal: 'focus:border-blue-300 focus:shadow-outline-blue border-gray-300',
-        errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
-    }
 
     const inputsControls = {
         name: {
