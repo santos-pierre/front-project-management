@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import projectsClient from '../../../../api/projects/projectsClient';
 import { getRoute } from '../../../../routes/routes';
 import { ProjectType } from '../../../../types/ProjectType';
+import { FormGroupProjectProps } from './types';
+import moment from 'moment';
 
 type Inputs = {
     title: string,
     repository_url: string,
     deadline: string,
     description: string,
-    status_project_id: number
+    status_project_id: number,
 }
 
 const inputsControls = {
@@ -36,24 +38,69 @@ const inputsControls = {
     },
 }
 
-export default () => {
+const STATUS_PROJECT = {
+    done: {
+        name: "Done",
+        value: 1
+    },
+    pending: {
+        name: "Pending",
+        value: 2
+    },
+    late: {
+        name: "Late",
+        value: 3
+    },
+    give_up: {
+        name: "Give Up",
+        value: 4
+    },
+}
+
+const defaultProps: FormGroupProjectProps = {
+    project: { title: "", author: "1", description: "", repository_url: "", slug: "", deadline: moment().unix(), status: 'pending' },
+    edit: false
+}
+
+export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({ project = { title: "", author: "1", description: "", repository_url: "", slug: "", deadline: moment().unix(), status: 'pending' }, edit }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [newProject, setNewProject] = useState<ProjectType>();
     const [isDone, setIsDone] = useState(false);
 
-    const { register, handleSubmit, errors, setError } = useForm<Inputs>();
+    const [show, setShow] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState((STATUS_PROJECT as any)[project.status]);
+
+    const { register, handleSubmit, errors, setError } = useForm<Inputs>({
+        defaultValues: {
+            title: project.title,
+            repository_url: project.repository_url,
+            deadline: moment.unix(project.deadline).format("YYYY-MM-DD"),
+            description: project.description,
+        }
+    });
+
     const history = useHistory();
 
     const onSubmit = async (data: Inputs) => {
         setIsLoading(true);
-        data.status_project_id = 2; // Set the project automatically to pending
+        if (selectedStatus) {
+            data.status_project_id = selectedStatus.value;
+        }
         try {
-            const response = await projectsClient.store(data);
-            setNewProject(response.data);
+            if (edit) {
+                if (project) {
+                    const response = await projectsClient.update(project.slug, data);
+                    setNewProject(response.data);
+                }
+            } else {
+                const response = await projectsClient.store(data);
+                setNewProject(response.data);
+            }
             setIsDone(true);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
+            console.log(error);
             error.data.errors.title[0] && setError('title', { message: 'Project name already exist' });
         }
     }
@@ -70,19 +117,19 @@ export default () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="p-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="lg:pt-5 px-5">
             <div>
                 <div>
                     <div className="hidden lg:block">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">
-                            Create Project
+                            {!edit ? "Create Project" : "Edit Project"}
                         </h3>
                     </div>
                     <div className="mt-6 sm:mt-5">
                         <div className="flex flex-col space-y-2">
                             <label htmlFor="title" className="block text-sm font-medium leading-5 text-gray-700">Project Name</label>
                             <div className="mt-1 relative rounded-md shadow-sm">
-                                <input id="title" type="text" required className={`${errors.title && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} placeholder="My awesome project" name="title" ref={register(inputsControls.title)} />
+                                <input id="title" type="text" className={`${errors.title && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} placeholder="My awesome project" name="title" ref={register(inputsControls.title)} />
                             </div>
                         </div>
                         {errors.title && <label className="text-red-500 text-sm ml-2">{errors.title.message}</label>}
@@ -104,6 +151,39 @@ export default () => {
                             {errors.deadline && <label className="text-red-500 text-sm ml-2">{errors.deadline.message}</label>}
                         </div>
                     </div>
+                    {/* Status Select */}
+                    <div className="space-y-1 mt-6 sm:mt-5">
+                        <label id="listbox-label" className="block text-sm leading-5 font-medium text-gray-700">
+                            Status
+                        </label>
+                        <div className="relative">
+                            <span className="inline-block w-full rounded-md shadow-sm" onClick={() => setShow(!show)}>
+                                <button type="button" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label" className={`"cursor-default relative w-full rounded-md border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue ${show && 'focus:border-blue-300'} transition ease-in-out duration-150 sm:text-sm sm:leading-5"`}>
+                                    <span className="block truncate">
+                                        {selectedStatus?.name}
+                                    </span>
+                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                                            <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </span>
+                            <div className={`absolute mt-1 w-full rounded-md bg-white shadow-lg ${show ? 'block' : 'hidden'}`}>
+                                <ul className="max-h-60 rounded-md text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5" onMouseLeave={() => setShow(false)} >
+                                    {Object.entries(STATUS_PROJECT).map((element) => {
+                                        return (
+                                            <li key={element[1].value} className={`group  cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-orange-500 ${selectedStatus?.name === element[1].name ? 'font-bold bg-orange-500 text-white' : 'font-normal text-gray-900'}`} onClick={() => { setSelectedStatus(element[1]); setShow(false) }}>
+                                                <span className="block truncate">
+                                                    {element[1].name}
+                                                </span>
+                                            </li>
+                                        )
+                                    })}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div className="mt-6 sm:mt-5">
                         <div className="flex flex-col space-y-2">
                             <label htmlFor="about" className="block text-sm font-medium leading-5 text-gray-700">Description</label>
@@ -118,7 +198,7 @@ export default () => {
                     <span className="block w-full rounded-md shadow-sm">
                         <button type="submit" disabled={isLoading} className={`w-full flex justify-around py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${!isLoading ? 'bg-orange-500' : 'cursor-not-allowed bg-orange-300'} hover:bg-orange-400 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition duration-150 ease-in-out`}>
                             <span>
-                                Create Project
+                                {!edit ? "Create Project" : "Edit Project"}
                                 <svg className={`animate-spin mr-3 h-5 w-5 text-white inline ml-2 ${isLoading ? 'block' : 'hidden'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -128,6 +208,11 @@ export default () => {
                     </span>
                 </div>
             </div>
-        </form>
+        </form >
     )
 }
+
+
+FormGroup.defaultProps = defaultProps;
+
+export default FormGroup;

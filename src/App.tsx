@@ -26,6 +26,7 @@ const App = () => {
         } else {
           // If user deleted localstorage try to connect him with cookie session and rehydrate the store
           const response = await usersClient.currentUser();
+          console.log(response);
           setUser({ name: response.data.name, email: response.data.email, isAuthenticated: true });
           setIsLoading(true);
         }
