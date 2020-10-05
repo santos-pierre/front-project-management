@@ -6,6 +6,7 @@ import Loading from "../../../Loading/Loading";
 import ContentLayout from "../Layouts/ContentLayout/ContentLayout";
 import MainLayout from "../Layouts/MainLayout/MainLayout";
 import ProjectInfo from "./ProjectInfo";
+import Index from "./Tasks/Index";
 
 
 export default () => {
@@ -32,7 +33,7 @@ export default () => {
 
     return (
         <MainLayout>
-            <ContentLayout left={isLoading ? <Loading /> : <ProjectInfo project={project} />}></ContentLayout>
+            <ContentLayout left={isLoading ? <Loading /> : <ProjectInfo project={project} />} center={<Index />}></ContentLayout>
         </MainLayout >
     )
 }
