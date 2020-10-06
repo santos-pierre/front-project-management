@@ -8,5 +8,4 @@ export interface TaskType {
     project: ProjectType,
     done: boolean,
     id: number,
-    option: boolean | false // Use For Option Edit/Delete On Each Task
 };

@@ -38,7 +38,7 @@ export default ({ project }: { project?: ProjectType }) => {
                         </div>
                         <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
                             <Link to={getRoute('projects-edit', { slug: project?.slug }).path} className="inline-flex rounded-md shadow-sm w-full">
-                                <button type="button" className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange active:bg-orange-600 transition ease-in-out duration-150">
+                                <button type="button" className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-orange-500 bg-white border-orange-500 hover:text-white hover:bg-orange-500 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange active:bg-orange-600 transition ease-in-out duration-150">
                                     Edit
                                 </button>
                             </Link>

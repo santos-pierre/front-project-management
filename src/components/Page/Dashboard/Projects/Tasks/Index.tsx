@@ -1,36 +1,29 @@
-import { Transition } from '@headlessui/react';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import tasksClient from '../../../../../api/tasks/tasksClient';
 import { TaskType } from '../../../../../types/TaskType';
+import MenuDropdown from '../../../../MenuDropdown/MenuDropdown';
+import TaskModal from './TaskModal';
 
 export default () => {
     type Param = {
         slug: string
     }
-    type Inputs = {
-        body: string
-    }
+
     const { slug } = useParams<Param>();
     const [tasks, setTasks] = useState<Array<TaskType>>([]);
-    const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
-    const { handleSubmit, register } = useForm<Inputs>();
+    const [taskSelected, setTaskSelected] = useState<TaskType | undefined>();
+    const [show, setShow] = useState<boolean>(false);
 
-    const onSubmit = async (data: object) => {
-        try {
-            const response = await tasksClient.createTask(slug, data);
-            setTasks([...tasks, { ...response.data, option: false }]);
-            setShowCreateModal(false);
-        } catch (error) {
-
-        }
+    const handleModalVisibility = (show: boolean, task?: TaskType) => {
+        setShow(show);
+        setTaskSelected(task);
     }
 
     const updateTask = async (task: TaskType) => {
         try {
             const response = await tasksClient.updateTask(slug, task.id, { ...task, done: !task.done });
-            setTasks(tasks.map((element) => element.id === task.id ? { ...response.data, option: false } : element));
+            setTasks(tasks.map((element) => element.id === task.id ? response.data : element));
         } catch (error) {
 
         }
@@ -47,19 +40,11 @@ export default () => {
         }
     }
 
-    const toggleOptionTask = (task: TaskType, value?: boolean) => {
-        if (value) {
-            setTasks(tasks.map((element) => element.id === task.id ? { ...element, option: value } : element));
-        } else {
-            setTasks(tasks.map((element) => element.id === task.id ? { ...element, option: !element.option } : element));
-        }
-    }
-
     useEffect(() => {
         const getTasks = async () => {
             try {
                 const response = await tasksClient.tasks(slug);
-                setTasks(response.data.map((element: TaskType) => ({ ...element, option: false })));
+                setTasks(response.data);
             } catch (error) {
                 console.log(error);
             }
@@ -70,11 +55,19 @@ export default () => {
     return (
         <div>
             <div className="lg:mt-6 mt-1 sm:mt-5 px-5 mb-2">
-                <div className="flex flex-col space-y-2">
-                    <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
-                        <button type="button" className="inline-block items-center justify-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-orange-500 hover:bg-orange-400 focus:outline-none focus:border-orange-600 focus:shadow-outline-orange active:bg-orange-600 transition ease-in-out duration-150" onClick={() => setShowCreateModal(true)}>
-                            Add Task
-                        </button>
+                <div className="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-no-wrap">
+                    <div className="ml-4 mt-2">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">
+                            Tasks
+                        </h3>
+                    </div>
+                    <div className="ml-4 mt-2 flex-shrink-0">
+                        <span className="inline-flex rounded-md outline-none">
+                            <button className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-orange-500 hover:text-orange-600 hover:border-orange-500 focus:outline-none focus:border-orange-500 active:bg-orange-500 active:opacity-75 active:text-white transition ease-in-out duration-150 outline-none" onClick={() => setShow(true)}>
+                                Add Task
+                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
+                            </button>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -95,19 +88,13 @@ export default () => {
                                         </div>
                                     </span>
                                     <div className="flex relative"  >
-                                        <button className="text-gray-400 hover:text-gray-500 cursor-pointer focus:outline-none" onClick={() => { toggleOptionTask(element) }} onBlur={() => toggleOptionTask(element, false)}>
+                                        <button className="text-gray-400 hover:text-gray-500 cursor-pointer focus:outline-none" onClick={() => { setTaskSelected(element) }} onBlur={() => setTaskSelected(undefined)}>
                                             <svg className="w-4 h-4 right-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" /></svg>
                                         </button>
-                                        <Transition
-                                            show={element.option}
-                                            enter="transition ease-out duration-100"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95">
+                                        <MenuDropdown show={taskSelected && !show ? element.id === taskSelected.id : false}>
                                             <div className="border border-gray-300 absolute right-3 z-10 bg-white py-1 flex-col space-y-2 w-48 rounded-md shadow-lg" >
-                                                <div className="cursor-pointer block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">
+                                                <div className="cursor-pointer block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem"
+                                                    onClick={() => { handleModalVisibility(true, element) }}>
                                                     <div className="flex items-center justify-between">
                                                         <span className="text-sm">Edit</span>
                                                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
@@ -120,7 +107,7 @@ export default () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </Transition>
+                                        </MenuDropdown>
                                     </div>
                                 </li>
                             )
@@ -128,50 +115,7 @@ export default () => {
                     </ul>
                 </nav>
             </div>
-            <Transition show={showCreateModal}>
-                <div className="fixed z-10 inset-0 overflow-y-auto">
-                    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                        <Transition.Child
-                            enter="ease-out duration-300"
-                            enterFrom="opacity-0"
-                            enterTo="opacity-100"
-                            leave="ease-in duration-200"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                        >
-                            <div className="fixed inset-0 transition-opacity">
-                                <div className="absolute inset-0 bg-gray-500 opacity-75" onClick={() => setShowCreateModal(false)}></div>
-                            </div>
-                        </Transition.Child>
-                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
-                        <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-headline" >
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div>
-                                    <div className="text-center sm:mt-5">
-                                        <div className="flex flex-col space-y-2">
-                                            <div className="mt-1 relative rounded-md shadow-sm">
-                                                <input id="title" type="text" className={`form-input block w-full sm:text-sm sm:leading-5`} placeholder="My awesome task" name="body" ref={register} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                                    <span className="flex w-full rounded-md shadow-sm sm:col-start-2">
-                                        <button type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-orange-500 text-base leading-6 font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                                            Add Task
-                                        </button>
-                                    </span>
-                                    <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-1">
-                                        <button type="button" className="inline-flex justify-center w-full rounded-md border border-orange-300 px-4 py-2 bg-white text-base leading-6 font-medium text-orange-500 shadow-sm hover:text-orange-500 focus:outline-none focus:border-orange-300 focus:shadow-outline-orange transition ease-in-out duration-150 sm:text-sm sm:leading-5" onClick={() => setShowCreateModal(false)}>
-                                            Cancel
-                                        </button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </Transition>
+            <TaskModal slug={slug} show={show} handleVisibility={handleModalVisibility} task={taskSelected} tasks={tasks} handleTasks={setTasks} edit={taskSelected ? true : false} />
         </div >
     )
 }
