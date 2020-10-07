@@ -10,6 +10,7 @@ import Show from '../Page/Dashboard/Projects/Show';
 import Sandbox from '../Page/Sandbox/Sandbox';
 import Create from '../Page/Dashboard/Projects/Create';
 import Edit from '../Page/Dashboard/Projects/Edit';
+import Profile from '../Page/Profile/Profile';
 
 
 function RouterSwitch({ isAuth }: InferProps<typeof RouterSwitch.propsTypes>) {
@@ -19,6 +20,7 @@ function RouterSwitch({ isAuth }: InferProps<typeof RouterSwitch.propsTypes>) {
             <GuardedRoute component={Create} path={getRoute('projects-create').path} exact auth={isAuth} />
             <GuardedRoute component={Show} path={getRoute('projects-show').path} exact auth={isAuth} />
             <GuardedRoute component={Edit} path={getRoute('projects-edit').path} exact auth={isAuth} />
+            <GuardedRoute component={Profile} path={getRoute('profile').path} exact auth={isAuth} />
             <Route path={getRoute('login').path}>
                 {isAuth ? <Redirect to={getRoute('dashboard').path} /> : <Login />}
             </Route>

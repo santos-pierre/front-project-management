@@ -41,6 +41,12 @@ const ROUTES: Array<RouteType> = [
         protected: true,
     },
     //End Project Routes
+    {
+        name: 'profile',
+        path: '/profile',
+        componentPath: 'Page/Dashboard/Projects/Create.tsx',
+        protected: true
+    },
 ]
 
 

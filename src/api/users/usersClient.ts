@@ -22,5 +22,9 @@ export default {
 
     emailAlreadyTaken(data: object) {
         return client.post('/user/exist/email', data);
+    },
+
+    updateProfile(data: object) {
+        return client.post('api/user/profile', data);
     }
 }
