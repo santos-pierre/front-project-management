@@ -26,5 +26,9 @@ export default {
 
     updateProfile(data: object) {
         return client.post('api/user/profile', data);
+    },
+
+    updatePhotoProfile(data: object) {
+        return client.post('api/user/profile/photo', data);
     }
 }

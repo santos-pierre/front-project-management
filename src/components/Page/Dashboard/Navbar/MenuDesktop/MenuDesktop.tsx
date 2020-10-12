@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Transition } from "@tailwindui/react";
 import PropTypes, { InferProps } from "prop-types";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../../types/RooState';
 
 function MenuDesktop({ textColor }: InferProps<typeof MenuDesktop.propTypes>) {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +10,8 @@ function MenuDesktop({ textColor }: InferProps<typeof MenuDesktop.propTypes>) {
     const setStyle = (textColor: string): string => {
         return `px-3 py-2 rounded-md text-sm leading-5 font-medium text-${textColor}-200 hover:text-white focus:outline-none focus:text-white focus:bg-${textColor}-600 transition duration-150 ease-in-out`;
     }
+
+    const user = useSelector((state: RootState) => state.user.currentUser);
 
     return (
         <div className="hidden lg:block lg:w-80">
@@ -19,7 +23,18 @@ function MenuDesktop({ textColor }: InferProps<typeof MenuDesktop.propTypes>) {
                 <div className="ml-4 relative flex-shrink-0">
                     <div>
                         <button onBlur={() => setIsOpen(false)} onClick={() => setIsOpen(!isOpen)} className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
-                            <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80" alt="" />
+                            {
+                                user.photo ?
+                                    <img className="h-8 w-8 rounded-full" src={user.photo} alt="" />
+                                    :
+                                    <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
+                                        <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                        </svg>
+                                    </span>
+
+                            }
+
                         </button>
                     </div>
                     <Transition
