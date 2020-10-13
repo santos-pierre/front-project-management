@@ -19,7 +19,7 @@ const InputStyles = {
     errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
 }
 
-export default () => {
+const Register = () => {
 
     const inputsControls = {
         name: {
@@ -175,3 +175,5 @@ export default () => {
         </div>
     )
 }
+
+export default Register;

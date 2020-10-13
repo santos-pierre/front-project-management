@@ -5,7 +5,7 @@ import { TaskType } from '../../../../../types/TaskType';
 import MenuDropdown from '../../../../MenuDropdown/MenuDropdown';
 import TaskModal from './TaskModal';
 
-export default () => {
+const IndexTask = () => {
     type Param = {
         slug: string
     }
@@ -119,3 +119,5 @@ export default () => {
         </div >
     )
 }
+
+export default IndexTask;

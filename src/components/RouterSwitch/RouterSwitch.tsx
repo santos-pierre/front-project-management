@@ -5,15 +5,17 @@ import Dashboard from '../Page/Dashboard/Dashboard';
 import Login from '../Page/Login/Login';
 import Register from '../Page/Register/Register';
 import GuardedRoute from '../GuardedRoute/GuardedRoute';
-import PropsTypes, { InferProps } from "prop-types";
 import Show from '../Page/Dashboard/Projects/Show';
 import Sandbox from '../Page/Sandbox/Sandbox';
 import Create from '../Page/Dashboard/Projects/Create';
 import Edit from '../Page/Dashboard/Projects/Edit';
 import Profile from '../Page/Profile/Profile';
 
+type RouterSwitchProps = {
+    isAuth: boolean | false
+}
 
-function RouterSwitch({ isAuth }: InferProps<typeof RouterSwitch.propsTypes>) {
+const RouterSwitch = ({ isAuth }: RouterSwitchProps) => {
     return (
         <Switch>
             <GuardedRoute component={Dashboard} path={getRoute('dashboard').path} exact auth={isAuth} />
@@ -32,10 +34,6 @@ function RouterSwitch({ isAuth }: InferProps<typeof RouterSwitch.propsTypes>) {
             </Route>
         </Switch>
     )
-}
-
-RouterSwitch.propsTypes = {
-    isAuth: PropsTypes.bool.isRequired
 }
 
 export default RouterSwitch;

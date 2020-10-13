@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes, { InferProps } from "prop-types";
 import { Link } from 'react-router-dom';
 import { getRoute } from '../../../../../routes/routes';
 
+type LogoSectionProps = {
+    logo: string
+}
 
-
-function LogoSection({ logo }: InferProps<typeof LogoSection.propTypes>) {
+const LogoSection = ({ logo }: LogoSectionProps) => {
     return (
         <Link to={getRoute('dashboard').path}>
             <div className="flex items-center px-2 lg:px-0 xl:w-64">
@@ -17,8 +18,5 @@ function LogoSection({ logo }: InferProps<typeof LogoSection.propTypes>) {
     )
 }
 
-LogoSection.propTypes = {
-    logo: PropTypes.string.isRequired
-}
 
 export default LogoSection;

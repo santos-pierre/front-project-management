@@ -1,7 +1,14 @@
 import React from 'react';
-import PropTypes, { InferProps } from "prop-types";
 
-function SearchSection({ colorLogo, placeholderColor, backgroundInput, textPlaceholder, textPlaceholderFocus }: InferProps<typeof SearchSection.propsTypes>) {
+type SearchSectionProps = {
+    colorLogo: string,
+    placeholderColor: string,
+    backgroundInput: string,
+    textPlaceholder: string,
+    textPlaceholderFocus?: string
+}
+
+const SearchSection = ({ colorLogo = 'indigo', placeholderColor = 'gray', backgroundInput = 'indigo', textPlaceholder = 'gray', textPlaceholderFocus = 'gray' }: SearchSectionProps) => {
     const setStyleLogoInput = (colorLogo: string) => {
         return `relative text-${colorLogo}-300 focus-within:text-gray-400`;
     }
@@ -26,22 +33,5 @@ function SearchSection({ colorLogo, placeholderColor, backgroundInput, textPlace
         </div>
     )
 }
-
-SearchSection.propsTypes = {
-    colorLogo: PropTypes.string.isRequired,
-    placeholderColor: PropTypes.string.isRequired,
-    backgroundInput: PropTypes.string.isRequired,
-    textPlaceholder: PropTypes.string.isRequired,
-    textPlaceholderFocus: PropTypes.string.isRequired
-}
-
-SearchSection.defaultProps = {
-    colorLogo: 'indigo',
-    placeholderColor: 'gray',
-    backgroundInput: 'indigo',
-    textPlaceholder: 'gray',
-    textPlaceholderFocus: 'gray'
-}
-
 
 export default SearchSection;

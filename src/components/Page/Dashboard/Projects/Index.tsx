@@ -6,7 +6,7 @@ import { ProjectType } from '../../../../types/ProjectType';
 import { Link } from 'react-router-dom';
 import { getRoute } from '../../../../routes/routes';
 
-export default () => {
+const IndexProject = () => {
     const defaultArray: Array<ProjectType> = [];
     const [projects, setProjects] = useState<Array<ProjectType>>(defaultArray);
     const [isLoading, setIsLoading] = useState<Boolean>(true);
@@ -106,3 +106,5 @@ export default () => {
         </React.Fragment>
     )
 }
+
+export default IndexProject;

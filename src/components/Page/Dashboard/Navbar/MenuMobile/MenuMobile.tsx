@@ -1,8 +1,14 @@
 import React from 'react';
-import PropTypes, { InferProps } from "prop-types";
 import { Link } from 'react-router-dom';
 
-function MenuMobile({ textColor, isOpen, links, handleLogout }: InferProps<typeof MenuMobile.propTypes>) {
+type MenuMobileProps = {
+    textColor: string | 'orange',
+    isOpen: boolean,
+    links: any,
+    handleLogout: Function
+}
+
+const MenuMobile = ({ textColor, isOpen, links, handleLogout }: MenuMobileProps) => {
     const setSyleMenu = (textColor: string, first: boolean = false): string => {
         if (first) {
             return `block px-3 py-2 rounded-md text-base font-medium text-${textColor}-200 hover:text-${textColor}-100 hover:bg-${textColor}-600 focus:outline-none focus:text-${textColor}-100 focus:bg-${textColor}-600 transition duration-150 ease-in-out`
@@ -32,22 +38,11 @@ function MenuMobile({ textColor, isOpen, links, handleLogout }: InferProps<typeo
             <div className={setStyleHeadingLine(textColor)}>
                 <div className="px-2">
                     <Link to={links.profile.href} className={setStyleUserMenu(textColor, true)}>Your Profile</Link>
-                    <span className={setStyleUserMenu(textColor)} onClick={handleLogout}>Sign out</span>
+                    <span className={setStyleUserMenu(textColor)} onClick={() => handleLogout()}>Sign out</span>
                 </div>
             </div>
         </div >
     )
-}
-
-MenuMobile.propTypes = {
-    textColor: PropTypes.string.isRequired,
-    isOpen: PropTypes.bool.isRequired,
-    links: PropTypes.any.isRequired,
-    handleLogout: PropTypes.func.isRequired
-}
-
-MenuMobile.defaultProps = {
-    textColor: 'orange'
 }
 
 export default MenuMobile;

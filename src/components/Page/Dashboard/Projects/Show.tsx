@@ -9,7 +9,7 @@ import ProjectInfo from "./ProjectInfo";
 import Index from "./Tasks/Index";
 
 
-export default () => {
+const ShowProject = () => {
     type Param = {
         slug: string
     }
@@ -37,3 +37,5 @@ export default () => {
         </MainLayout >
     )
 }
+
+export default ShowProject;

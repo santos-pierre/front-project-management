@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getRoute } from '../../../../routes/routes';
 import { RootState } from '../../../../types/RooState';
 
-export default () => {
+const UserInfo = () => {
     const currentUser = useSelector(((state: RootState) => state.user.currentUser));
 
     return (
@@ -49,3 +49,5 @@ export default () => {
         </div>
     )
 }
+
+export default UserInfo;

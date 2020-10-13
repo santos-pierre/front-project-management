@@ -1,7 +1,12 @@
 import React from 'react';
-import PropTypes, { InferProps } from "prop-types";
 
-function MenuButtonMobile({ isOpen, toogleVisibility, colorButton }: InferProps<typeof MenuButtonMobile.propsTypes>) {
+type MenuButtonMobileProps = {
+    isOpen: boolean,
+    toogleVisibility: Function,
+    colorButton: string | 'indigo'
+}
+
+const MenuButtonMobile = ({ isOpen, toogleVisibility, colorButton }: MenuButtonMobileProps) => {
     const setStyle = (colorButton: string): string => {
         return `inline-flex items-center justify-center p-2 rounded-md text-${colorButton}-400 hover:text-white hover:bg-${colorButton}-600 focus:outline-none focus:bg-${colorButton}-600 focus:text-white transition duration-150 ease-in-out`;
     }
@@ -23,16 +28,5 @@ function MenuButtonMobile({ isOpen, toogleVisibility, colorButton }: InferProps<
         </div>
     )
 }
-
-MenuButtonMobile.propsTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    toogleVisibility: PropTypes.func.isRequired,
-    colorButton: PropTypes.string.isRequired,
-}
-
-MenuButtonMobile.defaultProps = {
-    colorButton: 'indigo'
-}
-
 
 export default MenuButtonMobile;

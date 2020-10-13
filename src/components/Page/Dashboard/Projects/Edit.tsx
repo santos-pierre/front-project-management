@@ -7,7 +7,7 @@ import ContentLayout from '../Layouts/ContentLayout/ContentLayout';
 import MainLayout from '../Layouts/MainLayout/MainLayout';
 import FormGroup from './FormGroup';
 
-export default () => {
+const EditProject = () => {
     type Param = {
         slug: string
     }
@@ -36,3 +36,5 @@ export default () => {
         </MainLayout >
     )
 }
+
+export default EditProject;

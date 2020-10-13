@@ -3,7 +3,7 @@ import ContentLayout from '../Layouts/ContentLayout/ContentLayout';
 import MainLayout from '../Layouts/MainLayout/MainLayout';
 import FormGroup from './FormGroup';
 
-export default () => {
+const CreateProject = () => {
     useEffect(() => {
         document.title = "Projects - Create";
     }, []);
@@ -13,3 +13,5 @@ export default () => {
         </MainLayout >
     )
 }
+
+export default CreateProject;

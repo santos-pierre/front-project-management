@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import PropTypes, { InferProps } from 'prop-types';
 
 import logo from './../../../../assets/img/logo_md.png';
 import SearchSection from "./SearchSection/SearchSection";
@@ -19,10 +18,14 @@ const defaultUser: UserType = {
     photo: undefined,
     isAuthenticated: false
 }
+type NavbarProps = {
+    mainColor: string,
+    colorIntensity: string
+}
 
-function Navbar({ mainColor, colorIntensity }: InferProps<typeof Navbar.propTypes>) {
+function Navbar({ mainColor, colorIntensity = '700' }: NavbarProps) {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const history = useHistory();
     const dispatch = useDispatch();
 
@@ -45,7 +48,7 @@ function Navbar({ mainColor, colorIntensity }: InferProps<typeof Navbar.propType
 
     const onLogout = async () => {
         try {
-            const response = await usersClient.logout();
+            await usersClient.logout();
             setUser(defaultUser);
             history.push('/login');
         } catch (error) {
@@ -60,21 +63,12 @@ function Navbar({ mainColor, colorIntensity }: InferProps<typeof Navbar.propType
                     <LogoSection logo={logo} />
                     <SearchSection colorLogo={mainColor} placeholderColor={mainColor} backgroundInput={mainColor} textPlaceholder={mainColor} />
                     <MenuButtonMobile isOpen={isOpen} toogleVisibility={setIsOpen} colorButton={mainColor} />
-                    <MenuDesktop textColor="orange" links={links} handleLogout={onLogout} />
+                    <MenuDesktop links={links} handleLogout={onLogout} />
                 </div>
                 <MenuMobile textColor="orange" isOpen={isOpen} links={links} handleLogout={onLogout} />
             </div>
         </nav>
     )
-}
-
-Navbar.propTypes = {
-    mainColor: PropTypes.string.isRequired,
-    colorIntensity: PropTypes.string.isRequired
-}
-
-Navbar.defaultProps = {
-    colorIntensity: '700'
 }
 
 export default Navbar;

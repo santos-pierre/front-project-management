@@ -22,7 +22,7 @@ type Errors = {
     email: Array<string>
 }
 
-export default () => {
+const Login = () => {
     const { handleSubmit, register } = useForm<Inputs>();
     const [errors, setErrors] = useState<Errors>();
     const history = useHistory();
@@ -129,3 +129,5 @@ export default () => {
         </div>
     )
 }
+
+export default Login;

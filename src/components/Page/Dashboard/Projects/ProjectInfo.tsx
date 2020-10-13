@@ -5,8 +5,7 @@ import _ from "lodash";
 import { Link } from 'react-router-dom';
 import { getRoute } from '../../../../routes/routes';
 
-export default ({ project }: { project?: ProjectType }) => {
-
+const ProjectInfo = ({ project }: { project?: ProjectType }) => {
     return (
         <div className="pl-4 py-6 pr-4 sm:pl-6 lg:pl-8 xl:pl-0 w-full">
             <div className="flex items-center justify-between">
@@ -49,3 +48,5 @@ export default ({ project }: { project?: ProjectType }) => {
         </div>
     )
 }
+
+export default ProjectInfo;

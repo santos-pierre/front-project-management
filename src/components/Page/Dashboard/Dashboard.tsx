@@ -4,7 +4,7 @@ import ContentLayout from "./Layouts/ContentLayout/ContentLayout";
 import UserInfo from "./UserInfo/UserInfo";
 import ProjectsIndex from "./Projects/Index";
 
-export default () => {
+const Dashboard = () => {
     useEffect(() => {
         document.title = "Projects - Dashboard";
     }, []);
@@ -15,3 +15,5 @@ export default () => {
         </MainLayout>
     )
 }
+
+export default Dashboard;
