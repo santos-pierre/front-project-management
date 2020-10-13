@@ -27,7 +27,7 @@ function MenuButtonMobile({ isOpen, toogleVisibility, colorButton }: InferProps<
 MenuButtonMobile.propsTypes = {
     isOpen: PropTypes.bool.isRequired,
     toogleVisibility: PropTypes.func.isRequired,
-    colorButton: PropTypes.string.isRequired
+    colorButton: PropTypes.string.isRequired,
 }
 
 MenuButtonMobile.defaultProps = {

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Transition } from "@tailwindui/react";
-import PropTypes, { InferProps } from "prop-types";
+import PropTypes, { any, InferProps } from "prop-types";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../types/RooState';
+import { Link } from 'react-router-dom';
 
-function MenuDesktop({ textColor }: InferProps<typeof MenuDesktop.propTypes>) {
+function MenuDesktop({ textColor, links, handleLogout }: InferProps<typeof MenuDesktop.propTypes>) {
     const [isOpen, setIsOpen] = useState(false);
 
     const setStyle = (textColor: string): string => {
@@ -17,8 +18,8 @@ function MenuDesktop({ textColor }: InferProps<typeof MenuDesktop.propTypes>) {
         <div className="hidden lg:block lg:w-80">
             <div className="flex items-center justify-end">
                 <div className="flex">
-                    <a href="/15" className={setStyle(textColor)}>Documentation</a>
-                    <a href="/15" className={setStyle(textColor)}>Support</a>
+                    {/* <a href="/15" className={setStyle(textColor)}>Documentation</a>
+                    <a href="/15" className={setStyle(textColor)}>Support</a> */}
                 </div>
                 <div className="ml-4 relative flex-shrink-0">
                     <div>
@@ -48,9 +49,8 @@ function MenuDesktop({ textColor }: InferProps<typeof MenuDesktop.propTypes>) {
                     >
                         <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
                             <div className="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                                <a href="/15" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">View Profile</a>
-                                <a href="/15" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Settings</a>
-                                <a href="/15" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Logout</a>
+                                <Link to={links.profile.href} className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">View Profile</Link>
+                                <span onClick={handleLogout} className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer" role="menuitem">Logout</span>
                             </div>
                         </div>
                     </Transition>
@@ -62,6 +62,8 @@ function MenuDesktop({ textColor }: InferProps<typeof MenuDesktop.propTypes>) {
 
 MenuDesktop.propTypes = {
     textColor: PropTypes.string.isRequired,
+    links: PropTypes.objectOf(any).isRequired,
+    handleLogout: PropTypes.func.isRequired
 }
 
 MenuDesktop.defaultProps = {
