@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import Footer from '../../Footer/Footer';
 
 import imgLogin from './../../../assets/img/login_img.png';
-import logo from './../../../assets/img/logo_big.png';
+import logo from './../../../assets/img/logo_svg.svg';
 import { UserType } from '../../../types/UserType';
 import { getRoute } from '../../../routes/routes';
 

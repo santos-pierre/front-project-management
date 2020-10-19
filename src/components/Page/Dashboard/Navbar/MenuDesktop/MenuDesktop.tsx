@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Transition } from "@tailwindui/react";
+import { Transition } from "@headlessui/react";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../types/RooState';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 type MenuDesktopProps = {
     links: any,
@@ -18,6 +18,7 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
         <div className="hidden lg:block lg:w-80">
             <div className="flex items-center justify-end">
                 <div className="flex">
+                    <NavLink to={links.home.href} className="px-3 py-2 rounded-md text-sm leading-5 font-medium text-orange-200 hover:text-white focus:outline-none transition duration-150 ease-in-out">Dashboard</NavLink>
                 </div>
                 <div className="ml-4 relative flex-shrink-0">
                     <div>
@@ -33,7 +34,6 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                                     </span>
 
                             }
-
                         </button>
                     </div>
                     <Transition

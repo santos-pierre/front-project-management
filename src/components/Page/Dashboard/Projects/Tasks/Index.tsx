@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import tasksClient from '../../../../../api/tasks/tasksClient';
 import { TaskType } from '../../../../../types/TaskType';
+import Button from '../../../../Button/Button';
+import Loading from '../../../../Loading/Loading';
 import MenuDropdown from '../../../../MenuDropdown/MenuDropdown';
 import TaskModal from './TaskModal';
 
@@ -14,6 +16,8 @@ const IndexTask = () => {
     const [tasks, setTasks] = useState<Array<TaskType>>([]);
     const [taskSelected, setTaskSelected] = useState<TaskType | undefined>();
     const [show, setShow] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
 
     const handleModalVisibility = (show: boolean, task?: TaskType) => {
         setShow(show);
@@ -45,8 +49,10 @@ const IndexTask = () => {
             try {
                 const response = await tasksClient.tasks(slug);
                 setTasks(response.data);
+                setIsLoading(false);
             } catch (error) {
                 console.log(error);
+                setIsLoading(false);
             }
         }
         getTasks();
@@ -63,10 +69,10 @@ const IndexTask = () => {
                     </div>
                     <div className="ml-4 mt-2 flex-shrink-0">
                         <span className="inline-flex rounded-md outline-none">
-                            <button className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-orange-500 hover:text-orange-600 hover:border-orange-500 focus:outline-none focus:border-orange-500 active:bg-orange-500 active:opacity-75 active:text-white transition ease-in-out duration-150 outline-none" onClick={() => setShow(true)}>
+                            <Button bgColor="white" textColor="orange" textColorIntensity="500" textColorHover="orange" textColorHoverIntensity="600" addStyle="hover:border-orange-500" onClick={() => setShow(true)} bgColorActive="orange" bgColorActiveIntensity="500" textColorActive="white">
                                 Add Task
                                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                            </button>
+                            </Button>
                         </span>
                     </div>
                 </div>
@@ -74,7 +80,7 @@ const IndexTask = () => {
             <div className="lg:py-8 py-4 px-4 sm:px-6 lg:px-8">
                 <nav className="flex">
                     <ul className="space-y-6 w-full">
-                        {tasks.map((element) => {
+                        {isLoading ? <Loading /> : tasks.map((element) => {
                             return (
                                 <li key={element.id} className="flex justify-between">
                                     <span className="group cursor-pointer" onClick={() => updateTask(element)}>
@@ -112,6 +118,7 @@ const IndexTask = () => {
                                 </li>
                             )
                         })}
+                        {!isLoading && tasks.length === 0 && <h1 className="text-xl text-center text-gray-300 mt-2">You don't have any tasks for this project</h1>}
                     </ul>
                 </nav>
             </div>

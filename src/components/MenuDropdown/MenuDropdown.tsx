@@ -1,4 +1,4 @@
-import { Transition } from '@tailwindui/react';
+import { Transition } from '@headlessui/react';
 import React, { ReactNode } from 'react';
 
 type MenuDropdownProps = {

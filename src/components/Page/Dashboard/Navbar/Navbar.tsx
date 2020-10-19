@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import logo from './../../../../assets/img/logo_md.png';
+import logo from './../../../../assets/img/logo_svg.svg';
 import SearchSection from "./SearchSection/SearchSection";
 import MenuDesktop from "./MenuDesktop/MenuDesktop";
 import LogoSection from './LogoSection/LogoSection';

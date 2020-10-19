@@ -14,7 +14,7 @@ const ShowProject = () => {
         slug: string
     }
     const { slug } = useParams<Param>();
-    const [project, setProject] = useState<ProjectType | undefined>();
+    const [project, setProject] = useState<ProjectType>({ title: " ", slug: " ", author: " ", description: " ", deadline: 0, repository_url: "", status: "" });
     const [isLoading, setIsLoading] = useState<Boolean>(true);
 
     useEffect(() => {

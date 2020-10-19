@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import logo from './../../../assets/img/logo_big.png';
+import logo from './../../../assets/img/logo_svg.svg';
 import { getRoute } from "../../../routes/routes";
 import { useForm } from "react-hook-form";
 

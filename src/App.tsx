@@ -6,12 +6,15 @@ import { RootState } from './types/RooState';
 import { UserType } from './types/UserType';
 import { setCurrentUser } from "./redux/user/userAction";
 import Loading from './components/Loading/Loading';
+import { useHistory } from 'react-router-dom';
+import { getRoute } from './routes/routes';
 
 const App = () => {
   const currentUser = useSelector(((state: RootState) => state.user.currentUser));
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const setUser = useCallback((user: UserType) => {
     dispatch(setCurrentUser(user));
@@ -20,22 +23,19 @@ const App = () => {
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
-        // Check in store first if the user is logged, reducing useless API call
-        if (currentUser.isAuthenticated) {
-          setIsLoading(true);
-        } else {
-          // If user deleted localstorage try to connect him with cookie session and rehydrate the store
-          const response = await usersClient.currentUser();
-          console.log(response);
-          setUser({ name: response.data.name, email: response.data.email, isAuthenticated: true });
+        const response = await usersClient.currentUser();
+        setUser({ name: response.data.name, email: response.data.email, photo: response.data.photo, isAuthenticated: true });
+        setIsLoading(true);
+      } catch (error) {
+        if (error.status === 401) {
+          setUser({ name: undefined, email: undefined, isAuthenticated: false });
+          history.push(getRoute('login').path);
           setIsLoading(true);
         }
-      } catch (error) {
-        setIsLoading(true);
       }
     }
     getCurrentUser();
-  });
+  }, [setUser, history]);
 
   return (
     <div>

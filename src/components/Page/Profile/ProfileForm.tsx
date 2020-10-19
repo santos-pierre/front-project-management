@@ -27,10 +27,19 @@ const ProfileForm = () => {
     const user: UserType = useSelector((state: RootState) => state.user.currentUser);
 
     const [file, setFile] = useState<File>();
-    const [errors, setErrors] = useState<Errors>();
+    const [errors, setErrors] = useState<Errors>({
+        email: [],
+        name: [],
+        photo: []
+    });
     const [isLoading, setLoading] = useState(false);
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        setErrors({
+            email: [],
+            name: [],
+            photo: []
+        });
         e.preventDefault();
         setLoading(true);
         let formData = new FormData(e.currentTarget);
@@ -43,8 +52,13 @@ const ProfileForm = () => {
             setUser({ ...response.data, isAuthenticated: true });
             setLoading(false);
         } catch (error) {
+            console.log(error.data.errors);
             if (error.status === 422) {
-                setErrors(error.data.errors);
+                setErrors({
+                    name: error.data.errors.name ? error.data.errors.name : [],
+                    email: error.data.errors.email ? error.data.errors.email : [],
+                    photo: error.data.errors.photo ? error.data.errors.photo : [],
+                });
             }
             setLoading(false);
         }
@@ -61,9 +75,9 @@ const ProfileForm = () => {
                                 Name
                             </label>
                             <div className="mt-1 flex rounded-md shadow-sm">
-                                <input id="name" className={`${errors?.name && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} placeholder="Name" name="name" defaultValue={user.name} />
+                                <input id="name" className={`${errors?.name.length !== 0 && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} placeholder="Name" name="name" defaultValue={user.name} />
                             </div>
-                            {errors?.name && <label className="text-red-500 text-sm ml-2">{errors.name[0]}</label>}
+                            {errors.name.length !== 0 && <label className="text-red-500 text-sm ml-2">{errors.name[0]}</label>}
                         </div>
                     </div>
                     <div className="grid grid-cols-3 gap-6 mt-6">
@@ -72,14 +86,14 @@ const ProfileForm = () => {
                                 Email
                             </label>
                             <div className="mt-1 flex rounded-md shadow-sm">
-                                <input id="email" className={`${errors?.email && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} name="email" placeholder="youremail@email.com" type="email" defaultValue={user.email} />
+                                <input id="email" className={`${errors.email.length !== 0 && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} name="email" placeholder="youremail@email.com" type="email" defaultValue={user.email} />
                             </div>
-                            {errors?.email && <label className="text-red-500 text-sm ml-2">{errors.email[0]}</label>}
+                            {errors.email.length !== 0 && <label className="text-red-500 text-sm ml-2">{errors.email[0]}</label>}
                         </div>
                     </div>
 
                     <div className="mt-6">
-                        <ProfilePhotoUpload handleFile={setFile} error={errors?.photo[0]} photo={user.photo} />
+                        <ProfilePhotoUpload handleFile={setFile} error={errors && errors.photo ? errors.photo[0] : undefined} photo={user.photo} />
                     </div>
                 </div>
                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
