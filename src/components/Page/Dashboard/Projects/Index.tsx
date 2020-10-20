@@ -5,6 +5,7 @@ import moment from "moment";
 import { ProjectType } from '../../../../types/ProjectType';
 import { Link } from 'react-router-dom';
 import { getRoute } from '../../../../routes/routes';
+import StatusProject from './StatusProject';
 
 const IndexProject = () => {
     const defaultArray: Array<ProjectType> = [];
@@ -63,10 +64,7 @@ const IndexProject = () => {
                                 <div className="flex items-center justify-between space-x-4">
                                     <div className="min-w-0 space-y-3">
                                         <div className="flex items-center space-x-3">
-                                            <span aria-label="Running" className="h-4 w-4 bg-green-100 rounded-full flex items-center justify-center">
-                                                <span className="h-2 w-2 bg-green-400 rounded-full"></span>
-                                            </span>
-
+                                            <StatusProject status={project.status} />
                                             <span className="block">
                                                 <h2 className="text-sm font-medium leading-5">
                                                     <span className="absolute inset-0"></span>
