@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import projectsClient from '../../../../../api/projects/projectsClient';
-import { getRoute } from '../../../../../routes/routes';
 import { ProjectType } from '../../../../../types/ProjectType';
 import { Transition } from '@headlessui/react';
 import { lowerCase } from 'lodash';
-import moment from 'moment';
-import StatusProject from '../../Projects/StatusProject';
+import ProjectItem from '../../Projects/ProjectItem';
 
 type SearchSectionProps = {
     colorLogo: string,
@@ -77,34 +74,7 @@ const SearchSection = ({ colorLogo = 'indigo', placeholderColor = 'gray', backgr
                         <ul className={`w-full absolute rounded shadow-sm h-auto bg-white py-2 mt-1 z-10 overflow-y-scroll`} style={{ scrollbarWidth: "none" }}>
                             {searchResult.map((element) => {
                                 if (lowerCase(element.title).includes(lowerCase(search))) {
-                                    return (<Link to={getRoute('projects-show', { slug: element.slug }).path} key={element.slug} onClick={() => { setSearch(""); setShow(false) }}>
-                                        <li className="relative pl-4 pr-6 py-5 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
-                                            <div className="flex items-center justify-between space-x-4">
-                                                <div className="min-w-0 space-y-3">
-                                                    <div className="flex items-center space-x-3">
-                                                        <StatusProject status={element.status} />
-                                                        <span className="block">
-                                                            <h2 className="text-sm font-medium leading-5">
-                                                                <span className="absolute inset-0"></span>
-                                                                {element.title}
-                                                            </h2>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div className="sm:hidden">
-                                                    <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                                    </svg>
-                                                </div>
-                                                <div className="hidden sm:flex flex-col flex-shrink-0 items-end space-y-3">
-                                                    <p className="flex text-gray-500 text-sm leading-5 space-x-2 flex-col items-center space-y-2">
-                                                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" /></svg>
-                                                        <span>{moment.unix(element.deadline).format("DD-MM-YYYY")}</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </Link>)
+                                    return <ProjectItem project={element} onClick={() => { setSearch(""); setShow(false) }} />
                                 } else {
                                     return null;
                                 }
