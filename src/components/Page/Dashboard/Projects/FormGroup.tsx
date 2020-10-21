@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import projectsClient from '../../../../api/projects/projectsClient';
 import { getRoute } from '../../../../routes/routes';
 import { ProjectType } from '../../../../types/ProjectType';
@@ -38,6 +38,10 @@ const inputsControls = {
         },
     },
     deadline: {
+        required: {
+            value: true,
+            message: 'The deadline is required'
+        },
         pattern: {
             value: /^\d{4}[- / .](((0)[0-9])|((1)[0-2]))[- / .]([0-2][0-9]|(3)[0-1])$/, // YYYY-MM-DD Regex
             message: 'Your deadline is not valid'
@@ -130,10 +134,13 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({ project = 
         <form onSubmit={handleSubmit(onSubmit)} className="lg:pt-5 px-5">
             <div>
                 <div>
-                    <div className="hidden lg:block">
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">
-                            {!edit ? "Create Project" : "Edit Project"}
-                        </h3>
+                    <div className="flex mt-3">
+                        {edit && <Link to={getRoute('projects-show', { slug: project.slug }).path}>
+                            <span className="inline-flex items-center text-xs text-orange-500 font-semibold hover:text-orange-600">
+                                <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" /></svg>
+                                Return to project
+                            </span>
+                        </Link>}
                     </div>
                     <div className="mt-6 sm:mt-5">
                         <div className="flex flex-col space-y-2">

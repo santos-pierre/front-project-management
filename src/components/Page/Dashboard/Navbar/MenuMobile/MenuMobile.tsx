@@ -38,7 +38,7 @@ const MenuMobile = ({ textColor, isOpen, links, handleLogout }: MenuMobileProps)
             <div className={setStyleHeadingLine(textColor)}>
                 <div className="px-2">
                     <Link to={links.profile.href} className={setStyleUserMenu(textColor, true)}>Your Profile</Link>
-                    <span className={setStyleUserMenu(textColor)} onClick={() => handleLogout()}>Sign out</span>
+                    <span className={setStyleUserMenu(textColor)} onClick={() => handleLogout()}>Log Out</span>
                 </div>
             </div>
         </div >

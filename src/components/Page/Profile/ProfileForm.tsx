@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useCallback } from 'react';
+import React, { useState, FormEvent, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import usersClient from '../../../api/users/usersClient';
 import { setCurrentUser } from '../../../redux/user/userAction';
@@ -33,6 +33,11 @@ const ProfileForm = () => {
         photo: []
     });
     const [isLoading, setLoading] = useState(false);
+    const [preview, setPreview] = useState<string>('');
+
+    useEffect(() => {
+        document.title = "Projects - Profile";
+    }, []);
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
         setErrors({
@@ -50,6 +55,7 @@ const ProfileForm = () => {
             const response = await usersClient.updateProfile(formData);
             console.log(response);
             setUser({ ...response.data, isAuthenticated: true });
+            setPreview('');
             setLoading(false);
         } catch (error) {
             console.log(error.data.errors);
@@ -93,12 +99,12 @@ const ProfileForm = () => {
                     </div>
 
                     <div className="mt-6">
-                        <ProfilePhotoUpload handleFile={setFile} error={errors && errors.photo ? errors.photo[0] : undefined} photo={user.photo} />
+                        <ProfilePhotoUpload handleFile={setFile} error={errors && errors.photo ? errors.photo[0] : undefined} photo={user.photo} preview={preview} handlePreview={setPreview} />
                     </div>
                 </div>
                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                     <span className="inline-flex rounded-md shadow-sm">
-                        <button type="submit" disabled={isLoading} className="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-gray-600 hover:bg-gray-500 focus:outline-none focus:border-gray-700 focus:shadow-outline-gray active:bg-gray-700 transition duration-150 ease-in-out">
+                        <button type="submit" disabled={isLoading} className="inline-flex justify-center py-2 px-4 border border-orange-500 text-sm leading-5 font-medium rounded-md text-orange-500 bg-white hover:bg-orange-500 focus:outline-none focus:border-orange-500 focus:shadow-outline-orange active:bg-orange-500 transition duration-150 ease-in-out hover:text-white">
                             Save
                             <svg className={`animate-spin h-5 w-5 text-white inline ml-2 ${isLoading ? 'block' : 'hidden'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

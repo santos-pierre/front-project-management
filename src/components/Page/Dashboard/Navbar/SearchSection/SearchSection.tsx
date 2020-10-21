@@ -74,7 +74,7 @@ const SearchSection = ({ colorLogo = 'indigo', placeholderColor = 'gray', backgr
                         <ul className={`w-full absolute rounded shadow-sm h-auto bg-white py-2 mt-1 z-10 overflow-y-scroll`} style={{ scrollbarWidth: "none" }}>
                             {searchResult.map((element) => {
                                 if (lowerCase(element.title).includes(lowerCase(search))) {
-                                    return <ProjectItem project={element} onClick={() => { setSearch(""); setShow(false) }} />
+                                    return <ProjectItem project={element} onClick={() => { setSearch(""); setShow(false) }} key={element.slug} />
                                 } else {
                                     return null;
                                 }

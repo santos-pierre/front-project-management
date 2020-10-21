@@ -54,7 +54,7 @@ const IndexProject = () => {
                 </div>
             </div>
             <ul className="relative z-0 divide-y divide-gray-200 border-b border-gray-200">
-                {isLoading ? <Loading /> : projects.map((project) => (<ProjectItem project={project} />))}
+                {isLoading ? <Loading /> : projects.map((project) => (<ProjectItem project={project} key={project.slug} />))}
             </ul>
             {!isLoading && projects.length === 0 && <h1 className="text-xl text-center text-gray-300 mt-2">You don't have any project</h1>}
         </React.Fragment>
