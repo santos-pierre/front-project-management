@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NotificationToasterType } from '../../../types/NotificationToasterType';
+import NotificationToaster from '../../NotificationToaster/NotificationToaster';
 import MainLayout from '../Dashboard/Layouts/MainLayout/MainLayout';
 import ProfileForm from './ProfileForm';
 
 const Profile = () => {
+    const [notification, setNotification] = useState<NotificationToasterType>({
+        show: false,
+        message: ''
+    })
 
     return (
         <MainLayout>
@@ -13,7 +19,7 @@ const Profile = () => {
                     </div>
                 </div>
                 <div className="mt-5 md:mt-0 md:col-span-2">
-                    <ProfileForm />
+                    <ProfileForm handleNotification={setNotification} />
                 </div>
             </div>
             <div className="hidden sm:block">
@@ -63,6 +69,7 @@ const Profile = () => {
                     </form>
                 </div>
             </div> */}
+            <NotificationToaster notification={notification} />
         </MainLayout>)
 }
 

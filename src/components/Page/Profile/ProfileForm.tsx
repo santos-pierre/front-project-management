@@ -12,7 +12,11 @@ type Errors = {
     photo: Array<string>,
 }
 
-const ProfileForm = () => {
+type ProfileForm = {
+    handleNotification?: Function
+}
+
+const ProfileForm = ({ handleNotification }: ProfileForm) => {
     const inputStyles = {
         normal: '',
         errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
@@ -40,6 +44,8 @@ const ProfileForm = () => {
     }, []);
 
     const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         setErrors({
             email: [],
             name: [],
@@ -57,8 +63,13 @@ const ProfileForm = () => {
             setUser({ ...response.data, isAuthenticated: true });
             setPreview('');
             setLoading(false);
+            if (handleNotification) {
+                handleNotification({
+                    message: "Profile updated !",
+                    show: true
+                });
+            }
         } catch (error) {
-            console.log(error.data.errors);
             if (error.status === 422) {
                 setErrors({
                     name: error.data.errors.name ? error.data.errors.name : [],
