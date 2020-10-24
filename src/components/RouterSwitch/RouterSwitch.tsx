@@ -10,6 +10,7 @@ import Sandbox from '../Page/Sandbox/Sandbox';
 import Create from '../Page/Dashboard/Projects/Create';
 import Edit from '../Page/Dashboard/Projects/Edit';
 import Profile from '../Page/Profile/Profile';
+import Page404 from '../Page/404/404';
 
 type RouterSwitchProps = {
     isAuth: boolean | false
@@ -32,6 +33,8 @@ const RouterSwitch = ({ isAuth }: RouterSwitchProps) => {
             <Route path={'/test'}>
                 <Sandbox />
             </Route>
+            <Route component={Page404} path={'/404'} />
+            <Route component={Page404} />
         </Switch>
     )
 }

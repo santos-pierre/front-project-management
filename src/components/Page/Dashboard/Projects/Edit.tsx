@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import projectsClient from '../../../../api/projects/projectsClient';
+import { getRoute } from '../../../../routes/routes';
 import { ProjectType } from '../../../../types/ProjectType';
 import Loading from '../../../Loading/Loading';
 import ContentLayout from '../Layouts/ContentLayout/ContentLayout';
@@ -14,6 +15,7 @@ const EditProject = () => {
     const { slug } = useParams<Param>();
     const [project, setProject] = useState<ProjectType | undefined>();
     const [isLoading, setIsLoading] = useState<Boolean>(true);
+    const history = useHistory();
 
     useEffect(() => {
         document.title = "Projects - Edit";
@@ -24,11 +26,13 @@ const EditProject = () => {
                 setProject(response.data);
                 setIsLoading(false);
             } catch (error) {
-                console.log(error);
+                if (error.status === 404) {
+                    history.push(getRoute('404').path);
+                }
             }
         }
         getProject(slug);
-    }, [slug]);
+    }, [slug, history]);
 
     return (
         <MainLayout>

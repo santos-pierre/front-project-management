@@ -47,6 +47,13 @@ const ROUTES: Array<RouteType> = [
         componentPath: 'Page/Dashboard/Projects/Create.tsx',
         protected: true
     },
+
+    {
+        name: '404',
+        path: '/404',
+        componentPath: 'Page/Dashboard/Projects/Create.tsx',
+        protected: true
+    },
 ]
 
 
