@@ -1,61 +1,54 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../types/RooState';
 
 type ProfilePhotoUploadProps = {
-    handleFile: Function,
-    handlePreview: Function,
-    preview: string
-    error?: string,
-    photo?: string
+    handleFile: Function
 }
 
-const ProfilePhotoUpload = ({ handleFile, error, photo, handlePreview, preview }: ProfilePhotoUploadProps) => {
+const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
+    const currenUser = useSelector((state: RootState) => state.user.currentUser);
+    const [preview, setPreview] = useState<string>('');
+    const [file, setFile] = useState<File>();
+
+    useEffect(() => {
+        if (file) {
+            console.log(file.type);
+        }
+    }, [file]);
 
     const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             const imageURL = URL.createObjectURL(e.target.files[0]);
-            handlePreview(imageURL);
+            setPreview(imageURL);
+            setFile(e.target.files[0]);
             handleFile(e.target.files[0]);
         }
     }
 
-    const reset = () => {
-        handlePreview('');
-        handleFile(null);
-    }
-
     return (
-        <>
-            <label className="block text-sm leading-5 font-medium text-gray-700" >
-                Photo
-            </label >
-            <div className="mt-2 flex flex-col space-y-3">
-                {
-                    photo === null && !preview ?
-                        <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                            <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </span>
-                        :
-                        <div className="flex items-center space-x-2">
-                            <span className="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100 border border-gray-200" style={{ backgroundImage: `url('${preview ? preview : photo}')`, backgroundPosition: 'center', backgroundSize: 'contain', backgroundRepeat: 'no-repeat' }}></span>
-                            {
-                                (preview) &&
-                                <button className="inline-flex p-1 items-center border border-red-500 text-sm leading-4 font-medium rounded-md text-red-500 bg-white-600 hover:bg-red-500 focus:outline-none focus:border-red-500 focus:shadow-outline-indigo active:bg-red-700 transition ease-in-out duration-150 hover:text-white focus:text-white" type="button" onClick={reset}>
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" /></svg>
-                                </button>
-                            }
-                        </div>
-                }
-                <span className="rounded-md">
-                    <input type="file" name="photo" id="photo" className="hidden" onChange={onChange} />
-                    <label htmlFor="photo" className="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out cursor-pointer">
-                        Change
+        <div className="flex flex-col justify-center">
+            <div className="flex justify-center mt-5">
+                <div className="relative">
+                    {
+                        !(currenUser.photo === null && preview) ?
+                            <label htmlFor="photo">
+                                <img src={`${preview ? preview : currenUser.photo}`} alt=" " className={`${(file && !['image/png', 'image/jpeg'].includes(file.type)) && 'border border-red-500 shadow-outline-red '} h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer`} />
+                            </label>
+                            :
+                            <label htmlFor="photo" className="h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer">
+                                <svg className="h-full w-full text-gray-300 hover:opacity-75" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </label>
+                    }
+                    <label htmlFor="photo" className="h-6 w-6 bg-orange-500 rounded-full absolute right-4 bottom-0 shadow-md text-white cursor-pointer hover:bg-orange-400">
+                        <svg className="w-6 h-6 p-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
                     </label>
-                </span>
-            </div>
-            {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
-        </>
+                    <input type="file" name="photo" id="photo" className="hidden" onChange={(e) => onChange(e)} accept="image/png, image/jpeg" />
+                </div>
+            </div >
+        </div>
     )
 }
 

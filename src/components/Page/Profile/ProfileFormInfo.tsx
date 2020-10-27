@@ -11,14 +11,16 @@ type Inputs = {
     name: string,
     email: string,
     password: string,
-    password_confirmation: string
+    password_confirmation: string,
+    photo: File
 }
 
 type ProfileFormProps = {
-    handleNotification?: Function
+    handleNotification: Function,
+    profilePicture?: File
 }
 
-const ProfileFormInfo = ({ handleNotification }: ProfileFormProps) => {
+const ProfileFormInfo = ({ handleNotification, profilePicture }: ProfileFormProps) => {
     const [isLoading, setLoading] = useState<boolean>(false);
     const { handleSubmit, register, getValues, errors, reset } = useForm<Inputs>();
     const currentUser = useSelector((state: RootState) => state.user.currentUser);
@@ -86,19 +88,34 @@ const ProfileFormInfo = ({ handleNotification }: ProfileFormProps) => {
 
     const onSubmit = async (data: Inputs) => {
         setLoading(true);
+        let formDatas = new FormData();
+        formDatas.append('name', data.name);
+        formDatas.append('email', data.email);
+        formDatas.append('password', data.password);
+        formDatas.append('password_confirmation', data.password_confirmation);
+        if (profilePicture) {
+            formDatas.append('photo', profilePicture, profilePicture.name);
+        }
+
         try {
-            const response = await usersClient.updateProfile(data);
+            const response = await usersClient.updateProfile(formDatas);
             setUser({ ...response.data, isAuthenticated: true });
-            if (handleNotification) {
-                handleNotification({
-                    message: 'Profile Updated !',
-                    show: true
-                });
-            }
+            handleNotification({
+                message: 'Profile Updated !',
+                show: true,
+                type: 'success'
+            });
             setLoading(false);
             reset({ password: "", password_confirmation: "" })
         } catch (error) {
             setLoading(false);
+            if (error.status === 422) {
+                handleNotification({
+                    message: error.data.errors.photo[0],
+                    show: true,
+                    type: 'danger'
+                })
+            }
         }
     }
 
