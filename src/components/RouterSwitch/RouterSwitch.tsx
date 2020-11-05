@@ -6,7 +6,7 @@ import Login from '../Page/Login/Login';
 import Register from '../Page/Register/Register';
 import GuardedRoute from '../GuardedRoute/GuardedRoute';
 import Show from '../Page/Dashboard/Projects/Show';
-import Sandbox from '../Page/Sandbox/Sandbox';
+// import Sandbox from '../Page/Sandbox/Sandbox';
 import Create from '../Page/Dashboard/Projects/Create';
 import Edit from '../Page/Dashboard/Projects/Edit';
 import Profile from '../Page/Profile/Profile';
@@ -30,9 +30,9 @@ const RouterSwitch = ({ isAuth }: RouterSwitchProps) => {
             <Route path={getRoute('register').path}>
                 {isAuth ? <Redirect to={getRoute('dashboard').path} /> : <Register />}
             </Route>
-            <Route path={'/test'}>
+            {/* <Route path={'/test'}>
                 <Sandbox />
-            </Route>
+            </Route> */}
             <Route component={Page404} path={'/404'} />
             <Route component={Page404} />
         </Switch>

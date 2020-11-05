@@ -7,7 +7,6 @@ import { UserType } from './types/UserType';
 import { setCurrentUser } from "./redux/user/userAction";
 import Loading from './components/Loading/Loading';
 import { useHistory } from 'react-router-dom';
-import { getRoute } from './routes/routes';
 
 const App = () => {
   const currentUser = useSelector(((state: RootState) => state.user.currentUser));
@@ -29,7 +28,6 @@ const App = () => {
       } catch (error) {
         if (error.status === 401) {
           setUser({ name: undefined, email: undefined, isAuthenticated: false });
-          history.push(getRoute('login').path);
           setIsLoading(true);
         }
       }
