@@ -22,7 +22,7 @@ type ProfileFormProps = {
 
 const ProfileFormInfo = ({ handleNotification, profilePicture }: ProfileFormProps) => {
     const [isLoading, setLoading] = useState<boolean>(false);
-    const { handleSubmit, register, getValues, errors, reset } = useForm<Inputs>();
+    const { handleSubmit, register, getValues, errors, reset, setError } = useForm<Inputs>();
     const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
     const dispatch = useDispatch();
@@ -30,15 +30,6 @@ const ProfileFormInfo = ({ handleNotification, profilePicture }: ProfileFormProp
     const setUser = useCallback((user: UserType) => {
         dispatch(setCurrentUser(user));
     }, [dispatch]);
-
-    const emailAlreadyTaken = async (email: string) => {
-        try {
-            const response = await usersClient.emailAlreadyTaken({ email: email });
-            return !response.data.alreadyTaken;
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     const inputStyles = {
         normal: '',
@@ -69,9 +60,6 @@ const ProfileFormInfo = ({ handleNotification, profilePicture }: ProfileFormProp
                 value: 255,
                 message: 'You email cannot exceed 255 characters'
             },
-            validate: {
-                emailAlreadyTaken: (value: any) => emailAlreadyTaken(value),
-            }
         },
         password: {
             minLength: {
@@ -109,12 +97,16 @@ const ProfileFormInfo = ({ handleNotification, profilePicture }: ProfileFormProp
             reset({ password: "", password_confirmation: "" })
         } catch (error) {
             setLoading(false);
-            if (error.status === 422) {
+            if (error.status === 422 && error.data.errors.photo) {
                 handleNotification({
                     message: error.data.errors.photo[0],
                     show: true,
                     type: 'danger'
                 })
+            } else if (error.status === 422 && error.data.errors.email) {
+                setError('email', {
+                    message: error.data.errors.email[0]
+                });
             }
         }
     }
@@ -132,7 +124,6 @@ const ProfileFormInfo = ({ handleNotification, profilePicture }: ProfileFormProp
                     <label htmlFor="email_address" className="block text-sm font-medium leading-5 text-gray-700">Email</label>
                     <input id="email_address" className={`${errors.email ? inputStyles.errors : inputStyles.normal} form-input block w-full sm:text-sm sm:leading-5`} type="email" name="email" ref={register(inputsControls.email)} defaultValue={currentUser.email} />
                     {errors.email && <label className="text-red-500 text-sm ml-2 inline-block w-40 break-words">{errors.email.message}</label>}
-                    {errors.email && errors.email.type === "emailAlreadyTaken" && <label className="text-red-500 text-sm break-words inline-block md:w-40">Email already taken</label>}
                 </div>
 
                 <div>

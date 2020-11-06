@@ -1,6 +1,7 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../types/RooState';
+import {ReactComponent as Logo} from '../../../assets/img/profile_svg.svg';
 
 type ProfilePhotoUploadProps = {
     handleFile: Function
@@ -8,14 +9,8 @@ type ProfilePhotoUploadProps = {
 
 const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
     const currenUser = useSelector((state: RootState) => state.user.currentUser);
-    const [preview, setPreview] = useState<string>('');
+    const [preview, setPreview] = useState<string|null>(null);
     const [file, setFile] = useState<File>();
-
-    useEffect(() => {
-        if (file) {
-            console.log(file.type);
-        }
-    }, [file]);
 
     const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -31,15 +26,17 @@ const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
             <div className="flex justify-center mt-5">
                 <div className="relative">
                     {
-                        !(currenUser.photo === null && preview) ?
+                        (currenUser.photo !== null && !preview) ?
                             <label htmlFor="photo">
-                                <img src={`${preview ? preview : currenUser.photo}`} alt=" " className={`${(file && !['image/png', 'image/jpeg'].includes(file.type)) && 'border border-red-500 shadow-outline-red '} h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer`} />
+                                <img src={`${currenUser.photo}`} alt=" " className={`${(file && !['image/png', 'image/jpeg'].includes(file.type)) && 'border border-red-500 shadow-outline-red '} h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer`} />
                             </label>
                             :
                             <label htmlFor="photo" className="h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer">
-                                <svg className="h-full w-full text-gray-300 hover:opacity-75" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
+                                {preview ? 
+                                    <img src={`${preview}`} alt=" " className={`${(file && !['image/png', 'image/jpeg'].includes(file.type)) && 'border border-red-500 shadow-outline-red '} h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer`} />
+                                :
+                                    <Logo className="h-full w-full text-gray-300 hover:opacity-75"/>
+                                }
                             </label>
                     }
                     <label htmlFor="photo" className="h-6 w-6 bg-orange-500 rounded-full absolute right-4 bottom-0 shadow-md text-white cursor-pointer hover:bg-orange-400">

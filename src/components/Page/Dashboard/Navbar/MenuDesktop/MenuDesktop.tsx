@@ -25,7 +25,7 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                         <button onBlur={() => setIsOpen(false)} onClick={() => setIsOpen(!isOpen)} className="flex text-sm rounded-full text-white focus:outline-none focus:shadow-solid transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
                             {
                                 user.photo ?
-                                    <img className="h-8 w-8 rounded-full" src={user.photo} alt="" />
+                                    <img className="h-8 w-8 rounded-full bg-white" src={user.photo} alt="" />
                                     :
                                     <span className="inline-block h-8 w-8 rounded-full overflow-hidden bg-gray-100">
                                         <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
