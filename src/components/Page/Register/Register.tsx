@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import logo from './../../../assets/img/logo_svg.svg';
 import { getRoute } from "../../../routes/routes";
-import { useForm } from "react-hook-form";
+import { useForm, DeepMap, FieldError } from "react-hook-form";
 
 import usersClient from '../../../api/users/usersClient';
 import { useHistory } from "react-router-dom";
+import InputForm from "../../InputForm/InputForm";
 
 type Inputs = {
     name: string,
@@ -116,8 +117,39 @@ const Register = () => {
             </div>
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                        <InputForm 
+                            name="name" 
+                            type="text" 
+                            label="Name" 
+                            ref={register(inputsControls.name)} 
+                            error={errors.name && errors.name.message}
+                            />
+                        <InputForm 
+                            name="email" 
+                            type="email" 
+                            label="Email" 
+                            placeholder="test@test.com" 
+                            ref={register(inputsControls.email)} 
+                            error={(errors.email) ? (errors.email.type === "emailAlreadyTaken" ? "Email already taken" : errors.email.message) : ''}
+                            />
+                        <InputForm 
+                            name="password" 
+                            type="password" 
+                            label="Password"
+                            placeholder="" 
+                            ref={register(inputsControls.password)} 
+                            error={errors.password && errors.password.message} 
+                            />
+                        <InputForm 
+                            name="password_confirmation" 
+                            type="password" 
+                            label="Password Confirmation" 
+                            placeholder="" 
+                            ref={register(inputsControls.password_confirmation)}
+                            error={(errors.password_confirmation) ? (errors.password_confirmation.type === "confirmPassword" ? "Passwords must match" : errors.password_confirmation.message) : ''}
+                            />
+                        {/* <div>
                             <label htmlFor="name" className="block text-sm font-medium leading-5 text-gray-700">
                                 Name
                             </label>
@@ -135,9 +167,9 @@ const Register = () => {
                             </div>
                             {errors.email && <label className="text-red-500 text-sm ml-2">{errors.email.message}</label>}
                             {errors.email && errors.email.type === "emailAlreadyTaken" && <label className="text-red-500 text-sm">Email already taken</label>}
-                        </div>
+                        </div> */}
 
-                        <div className="mt-6">
+                        {/* <div className="mt-6">
                             <label htmlFor="password" className="block text-sm font-medium leading-5 text-gray-700">
                                 Password
                             </label>
@@ -156,7 +188,7 @@ const Register = () => {
                             </div>
                             {errors.password_confirmation && <label className="text-red-500 text-sm ml-2">{errors.password_confirmation.message}</label>}
                             {errors.password_confirmation && errors.password_confirmation.type === "confirmPassword" && <label className="text-red-500 text-sm">Passwords must match</label>}
-                        </div>
+                        </div> */}
 
                         <div className="mt-6">
                             <span className="block w-full rounded-md shadow-sm" >

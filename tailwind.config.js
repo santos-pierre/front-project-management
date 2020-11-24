@@ -1,10 +1,17 @@
 // tailwind.config.js
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors')
 
 module.exports = {
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
+            colors: {
+                amber: colors.amber,
+                orange: colors.orange,
+                primary: colors.orange[600],
+                lightBlue: colors.lightBlue
+            },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
@@ -24,5 +31,7 @@ module.exports = {
             whitelistPatterns: [/-active$/, /-enter$/, /-leave-to$/, /show$/],
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms'),
+    ],
 };

@@ -4,6 +4,7 @@ import usersClient from '../../../api/users/usersClient';
 import { useHistory } from 'react-router-dom';
 import { setCurrentUser } from '../../../redux/user/userAction';
 import { useDispatch } from 'react-redux';
+import InputForm from './../../InputForm/InputForm';
 
 import Footer from '../../Footer/Footer';
 
@@ -52,11 +53,6 @@ const Login = () => {
         }
     };
 
-    const InputStyles = {
-        normal: 'focus:border-blue-300 focus:shadow-outline-blue border-gray-300',
-        errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
-    }
-
     useEffect(() => {
         document.title = 'Projects - Sign in';
     }, []);
@@ -73,7 +69,7 @@ const Login = () => {
                         </h2>
                         <p className="mt-2 text-sm leading-5 text-gray-600 max-w">
                             Or
-                            <a href={getRoute('register').path} className="font-medium text-orange-600 hover:text-orange-500 focus:outline-none focus:underline transition ease-in-out duration-150"> create a new account</a>
+                            <a href={getRoute('register').path} className="font-medium text-primary hover:text-opacity-75 focus:outline-none focus:underline transition ease-in-out duration-150"> create a new account</a>
                         </p>
                     </div>
                     {/* END Header Title + Logo */}
@@ -85,23 +81,8 @@ const Login = () => {
                             {/* FORM  */}
                             <div className="mt-6">
                                 <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                                    <div>
-                                        <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
-                                            Email address
-                                        </label>
-                                        <div className="mt-1 rounded-md shadow-sm">
-                                            <input id="email" type="email" required className={`appearance-none block w-full px-3 py-2 border  rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors ? InputStyles.errors : InputStyles.normal}`} name="email" ref={register} />
-                                        </div>
-                                        {errors?.email && <label className="text-red-500 text-sm">{errors.email[0]}</label>}
-                                    </div>
-                                    <div>
-                                        <label htmlFor="password" className="block text-sm font-medium leading-5 text-gray-700">
-                                            Password
-                                        </label>
-                                        <div className="mt-1 rounded-md shadow-sm">
-                                            <input id="password" type="password" required className={`appearance-none block w-full px-3 py-2 border  rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors ? InputStyles.errors : InputStyles.normal}`} name="password" ref={register} />
-                                        </div>
-                                    </div>
+                                    <InputForm name="email" placeholder="example@email.com" type="email" label="Email address" error={errors?.email ? errors.email[0] : ''} ref={register} />
+                                    <InputForm name="password" type="password" label="Password" ref={register} />
                                     <div>
                                         <span className="block w-full rounded-md shadow-sm">
                                             <button type="submit" disabled={isLoading} className={`w-full flex justify-around py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${!isLoading ? 'bg-orange-500' : 'cursor-not-allowed bg-orange-400'} hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition duration-150 ease-in-out`}>
