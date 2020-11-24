@@ -2,6 +2,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
+    darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
             fontFamily: {
@@ -23,8 +24,5 @@ module.exports = {
             whitelistPatterns: [/-active$/, /-enter$/, /-leave-to$/, /show$/],
         },
     },
-    plugins: [
-        require('@tailwindcss/ui'),
-        require('@tailwindcss/typography'),
-    ],
+    plugins: [],
 };
