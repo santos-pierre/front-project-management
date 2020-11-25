@@ -5,8 +5,9 @@ import projectsClient from '../../../../api/projects/projectsClient';
 import { getRoute } from '../../../../routes/routes';
 import { ProjectType } from '../../../../types/ProjectType';
 import { FormGroupProjectProps } from './types';
-import Button from './../../../Button/Button';
 import moment from 'moment';
+import InputForm from '../../../InputForm/InputForm';
+import ButtonForm from '../../../ButtonForm/ButtonForm';
 
 type Inputs = {
     title: string,
@@ -125,51 +126,47 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({ project = 
         }
     }, [isDone, history, newProject])
 
-    const inputStyles = {
-        normal: '',
-        errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
-    }
-
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="lg:pt-5 px-5">
             <div>
                 <div>
                     <div className="flex mt-3">
                         {edit && <Link to={getRoute('projects-show', { slug: project.slug }).path}>
-                            <span className="inline-flex items-center text-xs text-orange-500 font-semibold hover:text-orange-600">
+                            <span className="inline-flex items-center text-xs text-primary font-semibold hover:text-opacity-70">
                                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" /></svg>
                                 Return to project
                             </span>
                         </Link>}
                     </div>
                     <div className="mt-6 sm:mt-5">
-                        <div className="flex flex-col space-y-2">
-                            <label htmlFor="title" className="block text-sm font-medium leading-5 text-gray-700">Project Name</label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                                <input id="title" type="text" className={`${errors.title && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} placeholder="My awesome project" name="title" ref={register(inputsControls.title)} />
-                            </div>
-                        </div>
-                        {errors.title && <label className="text-red-500 text-sm ml-2">{errors.title.message}</label>}
+                        <InputForm 
+                            name="title" 
+                            placeholder="My awesome project" 
+                            type="text" 
+                            label="Project Name" 
+                            ref={register(inputsControls.title)} 
+                            error={errors.title && errors.title.message}
+                        />
                     </div>
                     <div className="mt-6 sm:mt-5">
-                        <div className="flex flex-col space-y-2">
-                            <label htmlFor="github" className="block text-sm font-medium leading-5 text-gray-700">Github Repository URL</label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                                <input id="github" type="url" className={`${errors.repository_url && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} placeholder="http://github.com/yourgithub" name="repository_url" ref={register(inputsControls.repository_url)} />
-                            </div>
-                        </div>
-                        {errors.repository_url && <label className="text-red-500 text-sm ml-2">{errors.repository_url.message}</label>}
+                         <InputForm 
+                            name="repository_url" 
+                            placeholder="http://github.com/yourgithub" 
+                            type="url" 
+                            label="Github Repository URL" 
+                            ref={register(inputsControls.repository_url)} 
+                            error={errors.repository_url && errors.repository_url.message}
+                        />
                     </div>
                     <div className="mt-6 sm:mt-5">
-                        <div className="flex flex-col space-y-2">
-                            <label htmlFor="deadline" className="block text-sm font-medium leading-5 text-gray-700">Deadline</label>
-                            <div className="mt-1 relative rounded-md shadow-sm">
-                                <input id="deadline" type="date" className={`${errors.deadline && inputStyles.errors} form-input block w-full sm:text-sm sm:leading-5`} placeholder="github.com/yourgithub" name="deadline" ref={register(inputsControls.deadline)} />
-                            </div>
-                            {errors.deadline && <label className="text-red-500 text-sm ml-2">{errors.deadline.message}</label>}
-                            {errors.deadline && errors.deadline.type === "after" && <label className="text-red-500 text-sm">Date cannot be before today</label>}
-
-                        </div>
+                        <InputForm 
+                            name="deadline" 
+                            placeholder="http://github.com/yourgithub" 
+                            type="date" 
+                            label="Deadline" 
+                            ref={register(inputsControls.deadline)} 
+                            error={(errors.deadline) ? (errors.deadline.type === "after" ? "Cannot be set to before today" : errors.deadline.message) : ''}
+                        />
                     </div>
                     {/* Status Select */}
                     <div className="space-y-1 mt-6 sm:mt-5">
@@ -193,7 +190,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({ project = 
                                 <ul className="max-h-60 rounded-md text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5" onMouseLeave={() => setShow(false)} >
                                     {Object.entries(STATUS_PROJECT).map((element) => {
                                         return (
-                                            <li key={element[1].value} className={`group  cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-orange-500 ${selectedStatus?.name === element[1].name ? 'font-bold bg-orange-500 text-white' : 'font-normal text-gray-900'}`} onClick={() => { setSelectedStatus(element[1]); setShow(false) }}>
+                                            <li key={element[1].value} className={`group antialiased cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-primary ${selectedStatus?.name === element[1].name ? 'font-bold bg-primary text-white' : 'font-normal text-gray-900'}`} onClick={() => { setSelectedStatus(element[1]); setShow(false) }}>
                                                 <span className="block truncate">
                                                     {element[1].name}
                                                 </span>
@@ -208,7 +205,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({ project = 
                         <div className="flex flex-col space-y-2">
                             <label htmlFor="about" className="block text-sm font-medium leading-5 text-gray-700">Description</label>
                             <div className="mt-1 rounded-md shadow-sm">
-                                <textarea id="about" rows={3} className="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" name="description" ref={register}></textarea>
+                                <textarea id="about" rows={3} className="shadow-sm border border-gray-300 w-full rounded-md sm:text-sm focus:border-blue-300 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-10" name="description" ref={register}></textarea>
                             </div>
                             <p className="mt-2 text-sm text-gray-500">Write a few sentences to describe your project.</p>
                         </div>
@@ -216,9 +213,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({ project = 
                 </div>
                 <div className="mt-3" >
                     <span className="block w-full rounded-md shadow-sm">
-                        <Button type="submit" bgColor="orange" bgColorIntensity="500" bgColorHoverIntensity="400" bgColorFocusIntensity="600" textColor="white" textColorIntensity="600" size="full" textSize="text-sm" isLoading={isLoading} disabled={isLoading}>
-                            {!edit ? "Create Project" : "Edit Project"}
-                        </Button>
+                        <ButtonForm isLoading={isLoading} colorClass="bg-primary" text={!edit ? "Create Project" : "Edit Project"} />
                     </span>
                 </div>
             </div>

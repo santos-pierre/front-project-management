@@ -4,7 +4,6 @@ import moment from 'moment';
 import { upperFirst } from "lodash";
 import { Link, useHistory } from 'react-router-dom';
 import { getRoute } from '../../../../routes/routes';
-import Button from '../../../Button/Button';
 import MenuDropdown from '../../../MenuDropdown/MenuDropdown';
 import projectsClient from '../../../../api/projects/projectsClient';
 
@@ -77,9 +76,9 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                         </div>
                         <div className="flex flex-col space-y-3 sm:space-y-0 sm:space-x-3 sm:flex-row xl:flex-col xl:space-x-0 xl:space-y-3">
                             <Link to={getRoute('projects-edit', { slug: project?.slug }).path} className="inline-flex rounded-md shadow-sm w-full">
-                                <Button addStyle="border-orange-500" type="submit" bgColor="white" bgColorIntensity="500" textColorHover="white" bgColorHover="orange" bgColorHoverIntensity="500" bgColorFocusIntensity="600" textColor="orange" textColorIntensity="500" size="full" textSize="text-sm">
+                                {/* <Button addStyle="border-orange-500" type="submit" bgColor="white" bgColorIntensity="500" textColorHover="white" bgColorHover="orange" bgColorHoverIntensity="500" bgColorFocusIntensity="600" textColor="orange" textColorIntensity="500" size="full" textSize="text-sm">
                                     Edit
-                                </Button>
+                                </Button> */}
                             </Link>
                         </div>
                     </div>

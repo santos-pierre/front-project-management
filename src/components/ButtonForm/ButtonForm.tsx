@@ -2,7 +2,7 @@ import React from 'react';
 
 type ButtonFormProps =  {
     colorClass: string,
-    additionalClass: string,
+    additionalClass?: string,
     isLoading: boolean,
     text: string,
 }

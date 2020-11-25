@@ -5,7 +5,6 @@ import usersClient from '../../../api/users/usersClient';
 import { setCurrentUser } from '../../../redux/user/userAction';
 import { RootState } from '../../../types/RooState';
 import { UserType } from '../../../types/UserType';
-import Button from '../../Button/Button';
 
 type Inputs = {
     name: string,
@@ -139,9 +138,9 @@ const ProfileFormInfo = ({ handleNotification, profilePicture }: ProfileFormProp
                 </div>
             </div>
             <div className="flex mt-5 w-full">
-                <Button bgColor="orange" bgColorIntensity="500" bgColorHoverIntensity="400" bgColorFocusIntensity="600" textColor="white" textColorIntensity="600" size="full" textSize="text-sm" type="submit" isLoading={isLoading} disabled={isLoading}>
+                {/* <Button bgColor="orange" bgColorIntensity="500" bgColorHoverIntensity="400" bgColorFocusIntensity="600" textColor="white" textColorIntensity="600" size="full" textSize="text-sm" type="submit" isLoading={isLoading} disabled={isLoading}>
                     Save
-                </Button>
+                </Button> */}
             </div>
         </form>
     )
