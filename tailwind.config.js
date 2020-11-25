@@ -7,10 +7,16 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                amber: colors.amber,
-                orange: colors.orange,
-                primary: colors.orange[600],
-                lightBlue: colors.lightBlue
+                primary: colors.teal[500],
+                support: colors.blue[500],
+                neutral: colors.blueGray[500],
+                danger: colors.red[500],
+                warning: colors.yellow[500],
+                teal: colors.teal,
+                blue: colors.blue,
+                blueGray: colors.blueGray,
+                red: colors.red,
+                yellow: colors.yellow,
             },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],

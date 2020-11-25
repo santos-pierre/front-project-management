@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import logo from './../../../assets/img/logo_svg.svg';
 import { getRoute } from "../../../routes/routes";
-import { useForm, DeepMap, FieldError } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import usersClient from '../../../api/users/usersClient';
 import { useHistory } from "react-router-dom";
 import InputForm from "../../InputForm/InputForm";
+import ButtonForm from "../../ButtonForm/ButtonForm";
 
 type Inputs = {
     name: string,
@@ -14,11 +15,6 @@ type Inputs = {
     password: string,
     password_confirmation: string
 };
-
-const InputStyles = {
-    normal: 'focus:border-blue-300 focus:shadow-outline-blue border-gray-300',
-    errors: 'focus:border-red-300 shadow-outline-red focus:shadow-outline-red border-red-300'
-}
 
 const Register = () => {
 
@@ -105,14 +101,14 @@ const Register = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md text-blueGray-700">
                 <img className="mx-auto h-12 w-auto" src={logo} alt="Project Management" />
-                <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold">
                     Create your account
                 </h2>
-                <p className="mt-2 text-center text-sm leading-5 text-gray-600 max-w">
+                <p className="mt-2 text-center text-sm leading-5 max-w">
                     Or
-                <a href={getRoute('login').path} className="font-medium text-orange-600 hover:text-orange-500 focus:outline-none focus:underline transition ease-in-out duration-150"> login to an exsiting account</a>
+                <a href={getRoute('login').path} className="font-medium text-primary hover:text-opacity-70 focus:outline-none focus:underline transition ease-in-out duration-150"> login to an exsiting account</a>
                 </p>
             </div>
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -149,58 +145,12 @@ const Register = () => {
                             ref={register(inputsControls.password_confirmation)}
                             error={(errors.password_confirmation) ? (errors.password_confirmation.type === "confirmPassword" ? "Passwords must match" : errors.password_confirmation.message) : ''}
                             />
-                        {/* <div>
-                            <label htmlFor="name" className="block text-sm font-medium leading-5 text-gray-700">
-                                Name
-                            </label>
-                            <div className="mt-1 rounded-md shadow-sm">
-                                <input id="name" type="text" required className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors.name ? InputStyles.errors : InputStyles.normal}`} name="name" ref={register(inputsControls.name)} />
-                            </div>
-                            {errors.name && <label className="text-red-500 text-sm">{errors.name.message}</label>}
-                        </div>
-                        <div className="mt-6">
-                            <label htmlFor="email" className="block text-sm font-medium leading-5 text-gray-700">
-                                Email address
-                            </label>
-                            <div className="mt-1 rounded-md shadow-sm">
-                                <input id="email" type="email" required className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors.email ? InputStyles.errors : InputStyles.normal}`} name="email" ref={register(inputsControls.email)} />
-                            </div>
-                            {errors.email && <label className="text-red-500 text-sm ml-2">{errors.email.message}</label>}
-                            {errors.email && errors.email.type === "emailAlreadyTaken" && <label className="text-red-500 text-sm">Email already taken</label>}
-                        </div> */}
-
-                        {/* <div className="mt-6">
-                            <label htmlFor="password" className="block text-sm font-medium leading-5 text-gray-700">
-                                Password
-                            </label>
-                            <div className="mt-1 rounded-md shadow-sm">
-                                <input id="password" type="password" required className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors.password ? InputStyles.errors : InputStyles.normal}`} name="password" ref={register(inputsControls.password)} />
-                            </div>
-                            {errors.password && <label className="text-red-500 text-sm ml-2">{errors.password.message}</label>}
-                        </div>
-
-                        <div className="mt-6">
-                            <label htmlFor="password_confirmation" className="block text-sm font-medium leading-5 text-gray-700">
-                                Password confirmation
-                            </label>
-                            <div className="mt-1 rounded-md shadow-sm">
-                                <input id="password_confirmation" type="password" required className={`appearance-none block w-full px-3 py-2 border rounded-md placeholder-gray-400 focus:outline-none transition duration-150 ease-in-out sm:text-sm sm:leading-5 ${errors.password_confirmation ? InputStyles.errors : InputStyles.normal}`} name="password_confirmation" ref={register(inputsControls.password_confirmation)} />
-                            </div>
-                            {errors.password_confirmation && <label className="text-red-500 text-sm ml-2">{errors.password_confirmation.message}</label>}
-                            {errors.password_confirmation && errors.password_confirmation.type === "confirmPassword" && <label className="text-red-500 text-sm">Passwords must match</label>}
-                        </div> */}
-
-                        <div className="mt-6">
-                            <span className="block w-full rounded-md shadow-sm" >
-                                <button type="submit" disabled={isLoading} className={`w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${!isLoading ? 'bg-orange-500' : 'cursor-not-allowed bg-orange-400'} hover:bg-orange-500 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange active:bg-orange-700 transition duration-150 ease-in-out`}>
-                                    Register
-                                    <svg className={`animate-spin mr-3 h-5 w-5 text-white inline ml-2 ${isLoading ? 'block' : 'hidden'}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                </button>
-                            </span>
-                        </div>
+                        <ButtonForm 
+                            text="Register" 
+                            colorClass="bg-primary" 
+                            isLoading={isLoading} 
+                            additionalClass="focus:ring-2 focus:ring-teal-300"
+                        />
                     </form>
                 </div>
             </div>
