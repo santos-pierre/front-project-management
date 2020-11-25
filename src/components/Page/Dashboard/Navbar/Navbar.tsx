@@ -57,15 +57,19 @@ function Navbar({ mainColor, colorIntensity = '700' }: NavbarProps) {
     }
 
     return (
-        <nav className={setStyle(mainColor, colorIntensity)}>
+        <nav className="flex-shrink-0 bg-primary">
             <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="relative flex items-center justify-between h-16">
                     <LogoSection logo={logo} />
-                    <SearchSection colorLogo={mainColor} placeholderColor={mainColor} backgroundInput={mainColor} textPlaceholder={mainColor} />
-                    <MenuButtonMobile isOpen={isOpen} toogleVisibility={setIsOpen} colorButton={mainColor} />
+                    <SearchSection />
+                    <MenuButtonMobile isOpen={isOpen} toogleVisibility={setIsOpen} />
                     <MenuDesktop links={links} handleLogout={onLogout} />
                 </div>
-                <MenuMobile textColor="orange" isOpen={isOpen} links={links} handleLogout={onLogout} />
+                <MenuMobile 
+                    isOpen={isOpen} 
+                    links={links} 
+                    handleLogout={onLogout} 
+                />
             </div>
         </nav>
     )
