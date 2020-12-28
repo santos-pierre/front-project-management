@@ -12,7 +12,7 @@ const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
         (state: RootState) => state.user.currentUser
     );
     const [preview, setPreview] = useState<string | null>(null);
-    const [file, setFile] = useState<File>();
+    const [file, setFile] = useState<File | undefined>();
 
     const onChange = async (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -20,6 +20,15 @@ const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
             setPreview(imageURL);
             setFile(e.target.files[0]);
             handleFile(e.target.files[0]);
+        }
+    };
+
+    const errorCondition = (file: File) => {
+        if (file) {
+            return (
+                !['image/png', 'image/jpeg'].includes(file.type) ||
+                file.size > 1024000
+            );
         }
     };
 
@@ -34,10 +43,8 @@ const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
                                 alt=" "
                                 className={`${
                                     file &&
-                                    !['image/png', 'image/jpeg'].includes(
-                                        file.type
-                                    ) &&
-                                    'border border-red-500 shadow-outline-red '
+                                    errorCondition(file) &&
+                                    'border-2 border-danger shadow-outline-red '
                                 } h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer`}
                             />
                         </label>
@@ -52,10 +59,8 @@ const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
                                     alt=" "
                                     className={`${
                                         file &&
-                                        !['image/png', 'image/jpeg'].includes(
-                                            file.type
-                                        ) &&
-                                        'border border-red-500 shadow-outline-red '
+                                        errorCondition(file) &&
+                                        'border-2 border-danger shadow-outline-red '
                                     } h-32 w-32 inline-block rounded-full overflow-hidden bg-gray-100 shadow-lg hover:opacity-75 cursor-pointer`}
                                 />
                             ) : (
@@ -65,7 +70,7 @@ const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
                     )}
                     <label
                         htmlFor="photo"
-                        className="absolute bottom-0 w-6 h-6 text-white bg-orange-500 rounded-full shadow-md cursor-pointer right-4 hover:bg-orange-400"
+                        className="absolute bottom-0 w-6 h-6 text-white rounded-full shadow-md cursor-pointer bg-primary right-4 hover:bg-orange-400"
                     >
                         <svg
                             className="w-6 h-6 p-1"
@@ -85,6 +90,15 @@ const ProfilePhotoUpload = ({ handleFile }: ProfilePhotoUploadProps) => {
                         accept="image/png, image/jpeg"
                     />
                 </div>
+            </div>
+            <div className="flex justify-center">
+                {file ? (
+                    errorCondition(file) ? (
+                        <p className="text-sm text-danger">
+                            Only png/jpg (max 1024ko)
+                        </p>
+                    ) : null
+                ) : null}
             </div>
         </div>
     );

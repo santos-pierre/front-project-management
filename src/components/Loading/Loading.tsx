@@ -4,7 +4,7 @@ export default () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-white">
             <svg
-                className="w-10 h-10 mr-3 -ml-1 text-orange-500 animate-spin"
+                className="w-10 h-10 mr-3 -ml-1 text-primary animate-spin"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"

@@ -5,6 +5,8 @@ import usersClient from '../../../api/users/usersClient';
 import { setCurrentUser } from '../../../redux/user/userAction';
 import { RootState } from '../../../types/RooState';
 import { UserType } from '../../../types/UserType';
+import ButtonForm from '../../ButtonForm/ButtonForm';
+import InputForm from '../../InputForm/InputForm';
 
 type Inputs = {
     name: string;
@@ -133,116 +135,56 @@ const ProfileFormInfo = ({
             onSubmit={handleSubmit(onSubmit)}
         >
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mt-7">
-                <div>
-                    <label
-                        htmlFor="name"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
-                        Name
-                    </label>
-                    <input
-                        id="name"
-                        className={`${
-                            errors.name
-                                ? inputStyles.errors
-                                : inputStyles.normal
-                        } form-input block w-full sm:text-sm sm:leading-5`}
-                        name="name"
-                        type="text"
-                        ref={register(inputsControls.name)}
-                        defaultValue={currentUser.name}
-                    />
-                    {errors.name && (
-                        <label className="inline-block text-sm text-red-500 break-words md:w-40">
-                            {errors.name.message}
-                        </label>
-                    )}
-                </div>
+                <InputForm
+                    name="name"
+                    type="text"
+                    label="Name"
+                    ref={register(inputsControls.name)}
+                    error={errors.name && errors.name.message}
+                    defaultValue={currentUser.name}
+                />
+                <InputForm
+                    name="email"
+                    type="text"
+                    label="Email"
+                    ref={register(inputsControls.email)}
+                    error={errors.email && errors.email.message}
+                    defaultValue={currentUser.email}
+                />
 
-                <div>
-                    <label
-                        htmlFor="email_address"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
-                        Email
-                    </label>
-                    <input
-                        id="email_address"
-                        className={`${
-                            errors.email
-                                ? inputStyles.errors
-                                : inputStyles.normal
-                        } form-input block w-full sm:text-sm sm:leading-5`}
-                        type="email"
-                        name="email"
-                        ref={register(inputsControls.email)}
-                        defaultValue={currentUser.email}
-                    />
-                    {errors.email && (
-                        <label className="inline-block w-40 ml-2 text-sm text-red-500 break-words">
-                            {errors.email.message}
-                        </label>
-                    )}
-                </div>
+                <InputForm
+                    name="password"
+                    type="password"
+                    label="Password"
+                    placeholder="new password"
+                    additionaleWrapperClass="break-all w-fuul md:w-60"
+                    ref={register(inputsControls.password)}
+                    error={errors.password && errors.password.message}
+                />
 
-                <div>
-                    <label
-                        htmlFor="password"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
-                        New Password
-                    </label>
-                    <input
-                        id="password"
-                        className={`${
-                            errors.password_confirmation || errors.password
-                                ? inputStyles.errors
-                                : inputStyles.normal
-                        } mt-1 form-input block w-full sm:text-sm sm:leading-5`}
-                        type="password"
-                        placeholder="My new password"
-                        name="password"
-                        ref={register(inputsControls.password)}
-                    />
-                    {errors.password && (
-                        <label className="inline-block text-sm text-red-500 break-words md:w-40">
-                            {errors.password.message}
-                        </label>
-                    )}
-                </div>
-
-                <div>
-                    <label
-                        htmlFor="password_confirmation"
-                        className="block text-sm font-medium leading-5 text-gray-700"
-                    >
-                        Confirmation Password
-                    </label>
-                    <input
-                        id="password_confirmation"
-                        className={`${
-                            errors.password_confirmation || errors.password
-                                ? inputStyles.errors
-                                : inputStyles.normal
-                        } mt-1 form-input block w-full sm:text-sm sm:leading-5`}
-                        type="password"
-                        placeholder="My new password"
-                        name="password_confirmation"
-                        ref={register(inputsControls.password_confirmation)}
-                    />
-                    {errors.password_confirmation &&
-                        errors.password_confirmation.type ===
-                            'confirmPassword' && (
-                            <label className="inline-block ml-2 text-sm text-red-500 break-words md:w-40">
-                                Passwords must match
-                            </label>
-                        )}
-                </div>
+                <InputForm
+                    name="password_confirmation"
+                    type="password"
+                    label="Password Confirmation"
+                    placeholder="new password"
+                    ref={register(inputsControls.password_confirmation)}
+                    error={
+                        errors.password_confirmation
+                            ? errors.password_confirmation.type ===
+                              'confirmPassword'
+                                ? 'Passwords must match'
+                                : errors.password_confirmation.message
+                            : ''
+                    }
+                />
             </div>
             <div className="flex w-full mt-5">
-                {/* <Button bgColor="orange" bgColorIntensity="500" bgColorHoverIntensity="400" bgColorFocusIntensity="600" textColor="white" textColorIntensity="600" size="full" textSize="text-sm" type="submit" isLoading={isLoading} disabled={isLoading}>
-                    Save
-                </Button> */}
+                <ButtonForm
+                    text="Save"
+                    colorClass="bg-primary"
+                    isLoading={isLoading}
+                    additionalClass="focus:ring-2 focus:ring-teal-300"
+                />
             </div>
         </form>
     );
