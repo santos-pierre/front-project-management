@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import tasksClient from '../../../../../api/tasks/tasksClient';
 import { TaskType } from '../../../../../types/TaskType';
+import ButtonPrimary from '../../../../ButtonPrimary/ButtonPrimary';
+import ButtonSecondary from '../../../../ButtonSecondary/ButtonSecondary';
 import Loading from '../../../../Loading/Loading';
 import MenuDropdown from '../../../../MenuDropdown/MenuDropdown';
 import TaskModal from './TaskModal';
@@ -67,11 +69,11 @@ const IndexTask = () => {
                         </h3>
                     </div>
                     <div className="ml-4 mt-2 flex-shrink-0">
-                        <span className="inline-flex rounded-md outline-none">
-                            {/* <Button bgColor="white" textColor="orange" textColorIntensity="500" textColorHover="orange" textColorHoverIntensity="600" addStyle="hover:border-orange-500" onClick={() => setShow(true)} bgColorActive="orange" bgColorActiveIntensity="500" textColorActive="white">
+                        <span className="inline-flex rounded-md outline-none" onClick={() => setShow(true)}>
+                            <ButtonSecondary>
                                 Add Task
-                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                            </Button> */}
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
+                            </ButtonSecondary>
                         </span>
                     </div>
                 </div>

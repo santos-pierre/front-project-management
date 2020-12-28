@@ -13,22 +13,55 @@ import Profile from '../Page/Profile/Profile';
 import Page404 from '../Page/404/404';
 
 type RouterSwitchProps = {
-    isAuth: boolean | false
-}
+    isAuth: boolean | false;
+};
 
 const RouterSwitch = ({ isAuth }: RouterSwitchProps) => {
     return (
         <Switch>
-            <GuardedRoute component={Dashboard} path={getRoute('dashboard').path} exact auth={isAuth} />
-            <GuardedRoute component={Create} path={getRoute('projects-create').path} exact auth={isAuth} />
-            <GuardedRoute component={Show} path={getRoute('projects-show').path} exact auth={isAuth} />
-            <GuardedRoute component={Edit} path={getRoute('projects-edit').path} exact auth={isAuth} />
-            <GuardedRoute component={Profile} path={getRoute('profile').path} exact auth={isAuth} />
+            <GuardedRoute
+                component={Dashboard}
+                path={getRoute('dashboard').path}
+                exact
+                auth={isAuth}
+            />
+            <GuardedRoute
+                component={Create}
+                path={getRoute('projects-create').path}
+                exact
+                auth={isAuth}
+            />
+            <GuardedRoute
+                component={Show}
+                path={getRoute('projects-show').path}
+                exact
+                auth={isAuth}
+            />
+            <GuardedRoute
+                component={Edit}
+                path={getRoute('projects-edit').path}
+                exact
+                auth={isAuth}
+            />
+            <GuardedRoute
+                component={Profile}
+                path={getRoute('profile').path}
+                exact
+                auth={isAuth}
+            />
             <Route path={getRoute('login').path}>
-                {isAuth ? <Redirect to={getRoute('dashboard').path} /> : <Login />}
+                {isAuth ? (
+                    <Redirect to={getRoute('dashboard').path} />
+                ) : (
+                    <Login />
+                )}
             </Route>
             <Route path={getRoute('register').path}>
-                {isAuth ? <Redirect to={getRoute('dashboard').path} /> : <Register />}
+                {isAuth ? (
+                    <Redirect to={getRoute('dashboard').path} />
+                ) : (
+                    <Register />
+                )}
             </Route>
             {/* <Route path={'/test'}>
                 <Sandbox />
@@ -36,7 +69,7 @@ const RouterSwitch = ({ isAuth }: RouterSwitchProps) => {
             <Route component={Page404} path={'/404'} />
             <Route component={Page404} />
         </Switch>
-    )
-}
+    );
+};
 
 export default RouterSwitch;

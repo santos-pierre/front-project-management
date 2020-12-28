@@ -3,6 +3,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { TaskType } from '../../../../../types/TaskType';
 import { Transition } from '@headlessui/react';
 import tasksClient from '../../../../../api/tasks/tasksClient';
+import ButtonForm from '../../../../ButtonForm/ButtonForm';
+import ButtonSecondary from '../../../../ButtonSecondary/ButtonSecondary';
+import InputForm from '../../../../InputForm/InputForm';
 
 type ModalProps = {
     show: boolean,
@@ -67,21 +70,25 @@ const TaskModal = ({ show, task, handleVisibility, handleTasks, edit, tasks, slu
                             <div className="text-center sm:mt-5">
                                 <div className="flex flex-col space-y-2">
                                     <div className="mt-1 relative rounded-md shadow-sm">
-                                        <input id="title" type="text" className={`form-input block w-full sm:text-sm sm:leading-5`} placeholder="My awesome task" name="body" ref={register} defaultValue={task && task.body} />
+                                        <InputForm 
+                                            name="body"
+                                            type="text"
+                                            placeholder="My awesome task"
+                                            ref={register}
+                                            defaultValue={task && task.body}
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
                             <span className="flex w-full rounded-md shadow-sm sm:col-start-2">
-                                <button type="submit" className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-orange-500 text-base leading-6 font-medium text-white shadow-sm hover:bg-orange-600 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                                    Save
-                                </button>
+                                <ButtonForm colorClass="bg-primary" text="Save"/>
                             </span>
-                            <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-1">
-                                <button type="button" className="inline-flex justify-center w-full rounded-md border border-orange-300 px-4 py-2 bg-white text-base leading-6 font-medium text-orange-500 shadow-sm hover:text-orange-500 focus:outline-none focus:border-orange-300 focus:shadow-outline-orange transition ease-in-out duration-150 sm:text-sm sm:leading-5" onClick={() => handleVisibility(false)}>
+                            <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:col-start-1" onClick={() => handleVisibility(false)}>
+                                <ButtonSecondary>
                                     Cancel
-                                </button>
+                                </ButtonSecondary>
                             </span>
                         </div>
                     </form>

@@ -6,5 +6,4 @@ const mainReducer = combineReducers({
     user: userReducer,
 });
 
-
 export default mainReducer;

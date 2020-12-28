@@ -10,15 +10,15 @@ import FormGroup from './FormGroup';
 
 const EditProject = () => {
     type Param = {
-        slug: string
-    }
+        slug: string;
+    };
     const { slug } = useParams<Param>();
     const [project, setProject] = useState<ProjectType | undefined>();
     const [isLoading, setIsLoading] = useState<Boolean>(true);
     const history = useHistory();
 
     useEffect(() => {
-        document.title = "Projects - Edit";
+        document.title = 'Projects - Edit';
 
         const getProject = async (slug: string) => {
             try {
@@ -30,15 +30,23 @@ const EditProject = () => {
                     history.push(getRoute('404').path);
                 }
             }
-        }
+        };
         getProject(slug);
     }, [slug, history]);
 
     return (
         <MainLayout>
-            <ContentLayout center={isLoading ? <Loading /> : <FormGroup edit project={project} />}></ContentLayout>
-        </MainLayout >
-    )
-}
+            <ContentLayout
+                center={
+                    isLoading ? (
+                        <Loading />
+                    ) : (
+                        <FormGroup edit project={project} />
+                    )
+                }
+            ></ContentLayout>
+        </MainLayout>
+    );
+};
 
 export default EditProject;

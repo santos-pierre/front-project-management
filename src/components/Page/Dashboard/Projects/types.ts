@@ -1,6 +1,6 @@
-import { ProjectType } from "../../../../types/ProjectType";
+import { ProjectType } from '../../../../types/ProjectType';
 
 export interface FormGroupProjectProps {
-    project?: ProjectType,
-    edit?: boolean
+    project?: ProjectType;
+    edit?: boolean;
 }

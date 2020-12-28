@@ -1,6 +1,6 @@
 export interface RouteType {
-    name: string,
-    path: string,
-    componentPath: string
-    protected: boolean
-};
+    name: string;
+    path: string;
+    componentPath: string;
+    protected: boolean;
+}

@@ -1,5 +1,5 @@
 export interface NotificationToasterType {
-    message: string,
-    type: 'warning' | 'danger' | 'success',
-    show: boolean
-};
+    message: string;
+    type: 'warning' | 'danger' | 'success';
+    show: boolean;
+}

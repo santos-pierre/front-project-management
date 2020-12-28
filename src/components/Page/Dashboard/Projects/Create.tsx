@@ -5,13 +5,13 @@ import FormGroup from './FormGroup';
 
 const CreateProject = () => {
     useEffect(() => {
-        document.title = "Projects - Create";
+        document.title = 'Projects - Create';
     }, []);
     return (
         <MainLayout>
             <ContentLayout center={<FormGroup />}></ContentLayout>
-        </MainLayout >
-    )
-}
+        </MainLayout>
+    );
+};
 
 export default CreateProject;

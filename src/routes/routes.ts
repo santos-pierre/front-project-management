@@ -1,4 +1,4 @@
-import { RouteType } from "../types/RouteType";
+import { RouteType } from '../types/RouteType';
 
 const ROUTES: Array<RouteType> = [
     // Auth Routes
@@ -12,27 +12,27 @@ const ROUTES: Array<RouteType> = [
         name: 'register',
         path: '/register',
         componentPath: 'Page/Register/Register.tsx',
-        protected: false
+        protected: false,
     },
     //Dashboard Routes
     {
         name: 'dashboard',
         path: '/',
         componentPath: 'Page/Dashboard/Dashboard.tsx',
-        protected: true
+        protected: true,
     },
     //Projects Routes
     {
         name: 'projects-create',
         path: '/projects/create',
         componentPath: 'Page/Dashboard/Projects/Create.tsx',
-        protected: true
+        protected: true,
     },
     {
         name: 'projects-edit',
         path: '/projects/edit/:slug',
         componentPath: 'Page/Dashboard/Projects/Edit.tsx',
-        protected: true
+        protected: true,
     },
     {
         name: 'projects-show',
@@ -45,22 +45,20 @@ const ROUTES: Array<RouteType> = [
         name: 'profile',
         path: '/profile',
         componentPath: 'Page/Dashboard/Projects/Create.tsx',
-        protected: true
+        protected: true,
     },
 
     {
         name: '404',
         path: '/404',
         componentPath: 'Page/Dashboard/Projects/Create.tsx',
-        protected: true
+        protected: true,
     },
-]
-
+];
 
 const getAllRoutes = (): Array<RouteType> => {
     return ROUTES;
-}
-
+};
 
 const getRoute = (name: string, params?: object): RouteType => {
     let route = ROUTES.filter((route) => route.name === name)[0];
@@ -70,6 +68,6 @@ const getRoute = (name: string, params?: object): RouteType => {
         }
     }
     return route;
-}
+};
 
 export { getAllRoutes, getRoute };

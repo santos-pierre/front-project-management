@@ -1,2 +1,2 @@
-import { UserActionTypes } from "../redux/user/userTypes";
+import { UserActionTypes } from '../redux/user/userTypes';
 export type RootAction = UserActionTypes;
