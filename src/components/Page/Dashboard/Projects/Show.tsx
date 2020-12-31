@@ -6,6 +6,7 @@ import { ProjectType } from '../../../../types/ProjectType';
 import Loading from '../../../Loading/Loading';
 import ContentLayout from '../Layouts/ContentLayout/ContentLayout';
 import MainLayout from '../Layouts/MainLayout/MainLayout';
+import Feeds from './feeds/Feeds';
 import ProjectInfo from './ProjectInfo';
 import Index from './Tasks/Index';
 
@@ -49,6 +50,7 @@ const ShowProject = () => {
                     isLoading ? <Loading /> : <ProjectInfo project={project} />
                 }
                 center={<Index />}
+                right={<Feeds project={project} />}
             ></ContentLayout>
         </MainLayout>
     );
