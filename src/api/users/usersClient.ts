@@ -4,20 +4,19 @@ let client = new ApiClient(process.env.REACT_APP_API);
 
 export default {
     currentUser() {
-        return client.get('api/user');
+        return client.get('/user');
     },
 
-    async login(data: object) {
-        await client.get('/sanctum/csrf-cookie');
-        return client.post('login', data);
+    login(data: object) {
+        return client.post('/login', data);
     },
 
     registerUser(data: object) {
-        return client.post('register', data);
+        return client.post('/register', data);
     },
 
     logout() {
-        return client.post('logout');
+        return client.post('/logout');
     },
 
     emailAlreadyTaken(data: object) {
@@ -25,10 +24,10 @@ export default {
     },
 
     updateProfile(data: object) {
-        return client.post('api/user/profile', data);
+        return client.post('/user/profile', data);
     },
 
     updatePassword(data: object) {
-        return client.post('api/user/profile/password', data);
-    }
-}
+        return client.post('/user/profile/password', data);
+    },
+};

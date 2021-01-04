@@ -35,10 +35,6 @@ function Navbar({ mainColor, colorIntensity = '700' }: NavbarProps) {
         [dispatch]
     );
 
-    const setStyle = (color: string, intensity: string): string => {
-        return `flex-shrink-0 bg-${color}-${intensity}`;
-    };
-
     const links = {
         home: {
             href: '/',
@@ -52,10 +48,9 @@ function Navbar({ mainColor, colorIntensity = '700' }: NavbarProps) {
         try {
             await usersClient.logout();
             setUser(defaultUser);
-            history.push('/login');
-        } catch (error) {
-            console.log(error);
-        }
+            localStorage.removeItem('sanctum_token');
+            localStorage.removeItem('github_token');
+        } catch (error) {}
     };
 
     return (

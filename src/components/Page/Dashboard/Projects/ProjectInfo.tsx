@@ -19,9 +19,7 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
         try {
             await projectsClient.delete(project.slug);
             history.push(getRoute('dashboard').path);
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
 
     return (

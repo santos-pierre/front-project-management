@@ -81,7 +81,6 @@ const Register = () => {
                 history.push(getRoute('login').path);
             } catch (error) {
                 setLoading(false);
-                console.log(error);
             }
         }
     };
@@ -92,9 +91,7 @@ const Register = () => {
                 email: email,
             });
             return !response.data.alreadyTaken;
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
 
     useEffect(() => {

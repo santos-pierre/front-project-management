@@ -13,6 +13,7 @@ import logo from './../../../assets/img/logo_svg.svg';
 import { UserType } from '../../../types/UserType';
 import { getRoute } from '../../../routes/routes';
 import ButtonForm from '../../ButtonForm/ButtonForm';
+import checkAuthenticate from '../../../utils/isAuthenticate';
 
 type Inputs = {
     email: string;
@@ -41,10 +42,16 @@ const Login = () => {
     const onSubmit = async (data: Object) => {
         setLoading(true);
         try {
-            await usersClient.login(data);
-            const currentUser = await usersClient.currentUser();
+            let response = await usersClient.login(data);
             setLoading(false);
-            setUser({ ...currentUser.data, isAuthenticated: true });
+            localStorage.setItem(
+                'sanctum_token',
+                response.data.sanctum_access_token
+            );
+            setUser({
+                ...response.data.user,
+                isAuthenticated: checkAuthenticate(),
+            });
             history.push(getRoute('dashboard').path);
         } catch (error) {
             setLoading(false);

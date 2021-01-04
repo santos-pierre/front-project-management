@@ -1,24 +1,25 @@
 import React, { ReactType } from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { getRoute } from '../../routes/routes';
+import { RootState } from '../../types/RooState';
+import checkAuthenticate from '../../utils/isAuthenticate';
 
 type GuardedRouteProps = {
     component: ReactType;
-    auth: boolean;
     path?: string;
     exact?: boolean;
 };
 
-function GuardedRoute({
-    component: Component,
-    auth,
-    ...rest
-}: GuardedRouteProps) {
+function GuardedRoute({ component: Component, ...rest }: GuardedRouteProps) {
+    let userState = useSelector((state: RootState) => {
+        return state.user;
+    });
     return (
         <Route
             {...rest}
             render={(props) =>
-                auth === true ? (
+                userState.currentUser.isAuthenticated && checkAuthenticate() ? (
                     <Component {...props} />
                 ) : (
                     <Redirect to={getRoute('login').path} />

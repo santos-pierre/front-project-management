@@ -140,7 +140,6 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
-            console.log(error);
             error.data.errors.title[0] &&
                 setError('title', { message: 'Project name already exist' });
         }

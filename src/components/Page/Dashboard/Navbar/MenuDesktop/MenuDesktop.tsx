@@ -59,13 +59,13 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                         enter="transition ease-out duration-100"
                         enterFrom="transform opacity-0 scale-95"
                         enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
+                        leave="transition ease-in duration-100"
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
                         <div className="absolute right-0 w-48 mt-2 origin-top-right rounded-md shadow-lg">
                             <div
-                                className="py-1 bg-white rounded-md shadow-xs"
+                                className="w-full py-1 bg-white rounded-md shadow-xs"
                                 role="menu"
                                 aria-orientation="vertical"
                                 aria-labelledby="user-menu"

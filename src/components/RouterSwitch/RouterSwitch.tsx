@@ -11,53 +11,52 @@ import Create from '../Page/Dashboard/Projects/Create';
 import Edit from '../Page/Dashboard/Projects/Edit';
 import Profile from '../Page/Profile/Profile';
 import Page404 from '../Page/404/404';
+import checkAuthenticate from '../../utils/isAuthenticate';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../types/RooState';
 
-type RouterSwitchProps = {
-    isAuth: boolean | false;
-};
-
-const RouterSwitch = ({ isAuth }: RouterSwitchProps) => {
+const RouterSwitch = () => {
+    let userState = useSelector((state: RootState) => {
+        return state.user;
+    });
     return (
         <Switch>
             <GuardedRoute
                 component={Dashboard}
                 path={getRoute('dashboard').path}
                 exact
-                auth={isAuth}
             />
             <GuardedRoute
                 component={Create}
                 path={getRoute('projects-create').path}
                 exact
-                auth={isAuth}
             />
             <GuardedRoute
                 component={Show}
                 path={getRoute('projects-show').path}
                 exact
-                auth={isAuth}
             />
             <GuardedRoute
                 component={Edit}
                 path={getRoute('projects-edit').path}
                 exact
-                auth={isAuth}
             />
             <GuardedRoute
                 component={Profile}
                 path={getRoute('profile').path}
                 exact
-                auth={isAuth}
             />
             <Route path={getRoute('login').path}>
-                {isAuth ? (
+                {userState.currentUser.isAuthenticated &&
+                checkAuthenticate() ? (
                     <Redirect to={getRoute('dashboard').path} />
                 ) : (
                     <Login />
                 )}
             </Route>
             <Route path={getRoute('register').path}>
-                {isAuth ? (
+                {userState.currentUser.isAuthenticated &&
+                checkAuthenticate() ? (
                     <Redirect to={getRoute('dashboard').path} />
                 ) : (
                     <Register />

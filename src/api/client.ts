@@ -5,7 +5,8 @@ const getClient = (baseURL?: string): AxiosInstance => {
         baseURL: baseURL ? baseURL : undefined,
         withCredentials: true,
         headers: {
-            'Accept': 'application/json'
+            Accept: 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('sanctum_token')}`,
         },
     };
 
@@ -17,13 +18,11 @@ const getClient = (baseURL?: string): AxiosInstance => {
 
     const handleError = (error: AxiosError) => {
         return Promise.reject(error.response);
-    }
+    };
 
-    client.interceptors.response.use(
-        handleResponse,
-        handleError)
+    client.interceptors.response.use(handleResponse, handleError);
 
     return client;
-}
+};
 
-export { getClient }
+export { getClient };
