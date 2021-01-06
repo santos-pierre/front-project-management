@@ -18,12 +18,8 @@ const defaultUser: UserType = {
     photo: undefined,
     isAuthenticated: false,
 };
-type NavbarProps = {
-    mainColor: string;
-    colorIntensity: string;
-};
 
-function Navbar({ mainColor, colorIntensity = '700' }: NavbarProps) {
+function Navbar() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const history = useHistory();
     const dispatch = useDispatch();
@@ -49,7 +45,6 @@ function Navbar({ mainColor, colorIntensity = '700' }: NavbarProps) {
             await usersClient.logout();
             setUser(defaultUser);
             localStorage.removeItem('sanctum_token');
-            localStorage.removeItem('github_token');
         } catch (error) {}
     };
 

@@ -6,7 +6,7 @@ const getClient = (baseURL?: string): AxiosInstance => {
         withCredentials: true,
         headers: {
             Accept: 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('sanctum_token')}`,
+            'Access-Control-Allow-Origin': '*',
         },
     };
 
@@ -19,6 +19,13 @@ const getClient = (baseURL?: string): AxiosInstance => {
     const handleError = (error: AxiosError) => {
         return Promise.reject(error.response);
     };
+
+    client.interceptors.request.use(function (config) {
+        config.headers.Authorization = `Bearer ${localStorage.getItem(
+            'sanctum_token'
+        )}`;
+        return config;
+    });
 
     client.interceptors.response.use(handleResponse, handleError);
 

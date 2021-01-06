@@ -3,4 +3,5 @@ export interface UserType {
     email: string | undefined;
     photo?: string | undefined;
     isAuthenticated: boolean;
+    github_account?: boolean | false;
 }

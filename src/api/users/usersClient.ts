@@ -3,8 +3,8 @@ import { ApiClient } from '../ApiClient';
 let client = new ApiClient(process.env.REACT_APP_API);
 
 export default {
-    currentUser() {
-        return client.get('/user');
+    currentUser(config: object = {}) {
+        return client.get('/user', config);
     },
 
     login(data: object) {
