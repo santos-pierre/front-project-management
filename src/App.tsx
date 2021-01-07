@@ -21,21 +21,22 @@ const App = () => {
     useEffect(() => {
         const authGithub = async () => {
             try {
-                const sanctum_token = await cookiesClient.cookies(
-                    'SANCTUM_TOKEN'
-                );
-                localStorage.setItem('sanctum_token', sanctum_token.data);
-
-                const currentUser = await usersClient.currentUser({
-                    headers: {
-                        Accept: 'application/json',
-                        Authorization: `Bearer ${sanctum_token.data}`,
-                    },
-                });
-                setUser({
-                    ...currentUser.data.user,
-                    isAuthenticated: checkAuthenticate(),
-                });
+                if (!checkAuthenticate()) {
+                    const sanctum_token = await cookiesClient.cookies(
+                        'SANCTUM_TOKEN'
+                    );
+                    localStorage.setItem('sanctum_token', sanctum_token.data);
+                    const currentUser = await usersClient.currentUser({
+                        headers: {
+                            Accept: 'application/json',
+                            Authorization: `Bearer ${sanctum_token.data}`,
+                        },
+                    });
+                    setUser({
+                        ...currentUser.data.user,
+                        isAuthenticated: checkAuthenticate(),
+                    });
+                }
             } catch (error) {
             } finally {
                 setIsLoading(false);
