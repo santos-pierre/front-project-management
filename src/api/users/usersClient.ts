@@ -19,8 +19,12 @@ export default {
         return client.post('/logout');
     },
 
-    emailAlreadyTaken(data: object) {
-        return client.post('/user/exist/email', data);
+    emailAlreadyTaken(email: string) {
+        return client.get('/user/exist/email', {
+            params: {
+                email: email,
+            },
+        });
     },
 
     updateProfile(data: object) {

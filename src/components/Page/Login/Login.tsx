@@ -22,11 +22,12 @@ type Inputs = {
 
 type Errors = {
     email: Array<string>;
+    password: Array<string> | undefined;
 };
 
 const Login = () => {
     const { handleSubmit, register } = useForm<Inputs>();
-    const [errors, setErrors] = useState<Errors>();
+    const [errors, setErrors] = useState<Errors>({ email: [], password: [] });
     const history = useHistory();
     const [isLoading, setLoading] = useState(false);
 
@@ -58,7 +59,10 @@ const Login = () => {
             if (error && error.data.errors) {
                 setErrors(error.data.errors);
             } else {
-                setErrors({ email: ['Server Problem, please try later'] });
+                setErrors({
+                    email: ['Server Problem, please try later'],
+                    password: [],
+                });
             }
         }
     };
@@ -154,6 +158,11 @@ const Login = () => {
                                         type="password"
                                         label="Password"
                                         ref={register}
+                                        error={
+                                            errors?.password
+                                                ? errors.password[0]
+                                                : ''
+                                        }
                                     />
                                     <ButtonForm
                                         text="Log in"

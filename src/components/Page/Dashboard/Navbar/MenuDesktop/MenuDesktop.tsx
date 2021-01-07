@@ -70,13 +70,15 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                                 aria-orientation="vertical"
                                 aria-labelledby="user-menu"
                             >
-                                <Link
-                                    to={links.profile.href}
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    View Profile
-                                </Link>
+                                {!user.github_account && (
+                                    <Link
+                                        to={links.profile.href}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                    >
+                                        View Profile
+                                    </Link>
+                                )}
                                 <span
                                     onClick={() => handleLogout()}
                                     className="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"

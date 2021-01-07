@@ -87,9 +87,7 @@ const Register = () => {
 
     const emailAlreadyTaken = async (email: string) => {
         try {
-            const response = await usersClient.emailAlreadyTaken({
-                email: email,
-            });
+            const response = await usersClient.emailAlreadyTaken(email);
             return !response.data.alreadyTaken;
         } catch (error) {}
     };

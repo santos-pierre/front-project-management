@@ -151,7 +151,6 @@ const ProfileFormInfo = ({
                     error={errors.email && errors.email.message}
                     defaultValue={currentUser.email}
                 />
-
                 <InputForm
                     name="password"
                     type="password"
@@ -161,7 +160,6 @@ const ProfileFormInfo = ({
                     ref={register(inputsControls.password)}
                     error={errors.password && errors.password.message}
                 />
-
                 <InputForm
                     name="password_confirmation"
                     type="password"
