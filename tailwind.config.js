@@ -1,6 +1,6 @@
 // tailwind.config.js
 const defaultTheme = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 module.exports = {
     darkMode: false, // or 'media' or 'class'
@@ -12,6 +12,7 @@ module.exports = {
                 neutral: colors.blueGray[500],
                 danger: colors.red[500],
                 warning: colors.yellow[500],
+                success: colors.green[500],
                 teal: colors.teal,
                 blue: colors.blue,
                 blueGray: colors.blueGray,
@@ -33,11 +34,10 @@ module.exports = {
             './src/**/*.tsx',
         ],
         options: {
-            defaultExtractor: (content) => content.match(/[\w-/.:]+(?<!:)/g) || [],
+            defaultExtractor: (content) =>
+                content.match(/[\w-/.:]+(?<!:)/g) || [],
             whitelistPatterns: [/-active$/, /-enter$/, /-leave-to$/, /show$/],
         },
     },
-    plugins: [
-        require('@tailwindcss/forms'),
-    ],
+    plugins: [require('@tailwindcss/forms')],
 };

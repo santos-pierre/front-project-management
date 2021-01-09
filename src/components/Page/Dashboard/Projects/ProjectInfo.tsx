@@ -52,6 +52,44 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                             <div className="absolute z-10 flex-col w-48 py-1 space-y-2 bg-white border border-gray-300 rounded-md shadow-lg right-3">
                                                 <div
                                                     className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                    role="menuitem"
+                                                >
+                                                    <Link
+                                                        to={
+                                                            getRoute(
+                                                                'projects-edit',
+                                                                {
+                                                                    slug:
+                                                                        project.slug,
+                                                                }
+                                                            ).path
+                                                        }
+                                                    >
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="text-sm">
+                                                                Edit
+                                                            </span>
+                                                            <svg
+                                                                className="w-3 h-3"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                viewBox="0 0 24 24"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <path
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                    strokeWidth={
+                                                                        2
+                                                                    }
+                                                                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                                                                />
+                                                            </svg>
+                                                        </div>
+                                                    </Link>
+                                                </div>
+                                                <div
+                                                    className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
                                                     onClick={() =>
                                                         deleteTask(project)
                                                     }
