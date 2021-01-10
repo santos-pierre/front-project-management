@@ -50,7 +50,7 @@ const ShowProject = () => {
                     isLoading ? <Loading /> : <ProjectInfo project={project} />
                 }
                 center={<Index />}
-                right={<Feeds project={project} />}
+                right={isLoading ? <Loading /> : <Feeds project={project} />}
             ></ContentLayout>
         </MainLayout>
     );

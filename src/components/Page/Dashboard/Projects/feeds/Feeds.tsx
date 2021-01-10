@@ -1,255 +1,195 @@
 import React, { useEffect, useState } from 'react';
 import githubCommitClient from '../../../../../api/githubCommit/githubCommitClient';
+import { Listbox, Transition } from '@headlessui/react';
 import { ProjectType } from '../../../../../types/ProjectType';
+import FeedItem from './FeedItem';
+import Loading from '../../../../Loading/Loading';
 
 type FeedsProps = {
     project: ProjectType;
 };
 
+type CommitType = {
+    message: string;
+    url: string;
+    name: string;
+    date: string;
+    email: string;
+};
+
 const Feeds = ({ project }: FeedsProps) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [commits, setCommits] = useState<any>();
-    const [branches, setBranches] = useState<Array<any>>();
+    const [commits, setCommits] = useState<any>([]);
+    const [branches, setBranches] = useState<Array<string>>();
+    const [currentBranche, setCurrentBranche] = useState<string>();
 
     useEffect(() => {
+        let path = new URL(project.repository_url).pathname;
+        let parameters = path.substring(1).split('/');
+        let owner = parameters[0];
+        let repo = parameters[1];
+
         const getCommits = async () => {
             try {
-                const response = await githubCommitClient.commitsByBranches({
-                    params: {
-                        url: 'https://github.com/santos-pierre/qr_restaurant',
-                    },
-                });
+                const response = await githubCommitClient.commitsByBranches(
+                    owner,
+                    repo
+                );
                 setCommits(response.data);
-                // console.log(Object.entries(commits));
-
-                // setBranches(Object.entries(commits));
+                setBranches(Object.keys(response.data));
+                setCurrentBranche(Object.keys(response.data).shift());
+            } catch (error) {
+                if (error.status === 404) {
+                    setCommits([]);
+                }
+            } finally {
                 setIsLoading(false);
-            } catch (error) {}
+            }
         };
-
         getCommits();
-    }, []);
+    }, [project.repository_url]);
 
     return (
-        // <!-- This example requires Tailwind CSS v2.0+ -->
-        <div className="flow-root">
-            <ul className="">
-                <li>
-                    <div className="relative pb-8">
-                        {/* Line between feeed */}
-                        <span
-                            className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                            aria-hidden="true"
-                        ></span>
-                        <div className="relative flex space-x-3">
-                            <div>
-                                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-support ring-8 ring-white">
-                                    {/* <!-- Heroicon name: user --> */}
-                                    <svg
-                                        className="w-5 h-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-                                        />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                <div>
-                                    <p className="text-sm text-gray-500">
-                                        Applied to{' '}
-                                        <a
-                                            href="#"
-                                            className="font-medium text-gray-900"
-                                        >
-                                            Front End Developer
-                                        </a>
-                                    </p>
-                                </div>
-                                <div className="text-sm text-right text-gray-500 whitespace-nowrap">
-                                    <time dateTime="2020-09-20">Sep 20</time>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+        <>
+            {isLoading && commits.length !== 0 ? (
+                <Loading />
+            ) : (
+                <>
+                    {branches && (
+                        <Listbox
+                            value={currentBranche}
+                            onChange={setCurrentBranche}
+                        >
+                            {({ open }) => (
+                                <>
+                                    <div className="relative">
+                                        <span className="inline-block w-full rounded-md shadow-sm">
+                                            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md cursor-default focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
+                                                <span className="block truncate">
+                                                    {currentBranche}
+                                                </span>
+                                                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                                    <svg
+                                                        className="w-5 h-5 text-gray-400"
+                                                        viewBox="0 0 20 20"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            d="M7 7l3-3 3 3m0 6l-3 3-3-3"
+                                                            strokeWidth="1.5"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                    </svg>
+                                                </span>
+                                            </Listbox.Button>
+                                        </span>
 
-                <li>
-                    <div className="relative pb-8">
-                        <span
-                            className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                            aria-hidden="true"
-                        ></span>
-                        <div className="relative flex space-x-3">
-                            <div>
-                                <span className="flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full ring-8 ring-white">
-                                    {/* <!-- Heroicon name: thumb-up --> */}
-                                    <svg
-                                        className="w-5 h-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                <div>
-                                    <p className="text-sm text-gray-500">
-                                        Advanced to phone screening by{' '}
-                                        <a
-                                            href="#"
-                                            className="font-medium text-gray-900"
+                                        <Transition
+                                            show={open}
+                                            leave="transition ease-in duration-100"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                            className="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg"
                                         >
-                                            Bethany Blake
-                                        </a>
-                                    </p>
-                                </div>
-                                <div className="text-sm text-right text-gray-500 whitespace-nowrap">
-                                    <time dateTime="2020-09-22">Sep 22</time>
-                                </div>
-                            </div>
-                        </div>
+                                            <Listbox.Options
+                                                static
+                                                className="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-60 focus:outline-none sm:text-sm sm:leading-5"
+                                            >
+                                                {branches &&
+                                                    branches.map((branche) => (
+                                                        <Listbox.Option
+                                                            key={branche}
+                                                            value={branche}
+                                                        >
+                                                            {({
+                                                                selected,
+                                                                active,
+                                                            }) => (
+                                                                <div
+                                                                    className={`${
+                                                                        active
+                                                                            ? 'text-white bg-blue-500'
+                                                                            : 'text-gray-900'
+                                                                    } cursor-default select-none relative py-2 pl-8 pr-4`}
+                                                                >
+                                                                    <span
+                                                                        className={`${
+                                                                            selected
+                                                                                ? 'font-semibold'
+                                                                                : 'font-normal'
+                                                                        } block truncate`}
+                                                                    >
+                                                                        {
+                                                                            branche
+                                                                        }
+                                                                    </span>
+                                                                    {selected && (
+                                                                        <span
+                                                                            className={`${
+                                                                                active
+                                                                                    ? 'text-white'
+                                                                                    : 'text-blue-600'
+                                                                            } absolute inset-y-0 left-0 flex items-center pl-1.5`}
+                                                                        >
+                                                                            <svg
+                                                                                className="w-5 h-5"
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 20 20"
+                                                                                fill="currentColor"
+                                                                            >
+                                                                                <path
+                                                                                    fillRule="evenodd"
+                                                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                                                    clipRule="evenodd"
+                                                                                />
+                                                                            </svg>
+                                                                        </span>
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                        </Listbox.Option>
+                                                    ))}
+                                            </Listbox.Options>
+                                        </Transition>
+                                    </div>
+                                </>
+                            )}
+                        </Listbox>
+                    )}
+                    <div className="flow-root mt-8">
+                        <ul>
+                            {commits.length === 0 && isLoading && <Loading />}
+                            {commits &&
+                                currentBranche &&
+                                commits[currentBranche].map(
+                                    (
+                                        commit: CommitType,
+                                        index: number,
+                                        array: Array<CommitType>
+                                    ) => {
+                                        return (
+                                            <FeedItem
+                                                commit={commit}
+                                                isLast={
+                                                    array.length === index + 1
+                                                }
+                                            />
+                                        );
+                                    }
+                                )}
+                        </ul>
                     </div>
-                </li>
-
-                <li>
-                    <div className="relative pb-8">
-                        <span
-                            className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                            aria-hidden="true"
-                        ></span>
-                        <div className="relative flex space-x-3">
-                            <div>
-                                <span className="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full ring-8 ring-white">
-                                    {/* <!-- Heroicon name: check --> */}
-                                    <svg
-                                        className="w-5 h-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                <div>
-                                    <p className="text-sm text-gray-500">
-                                        Completed phone screening with{' '}
-                                        <a
-                                            href="#"
-                                            className="font-medium text-gray-900"
-                                        >
-                                            Martha Gardner
-                                        </a>
-                                    </p>
-                                </div>
-                                <div className="text-sm text-right text-gray-500 whitespace-nowrap">
-                                    <time dateTime="2020-09-28">Sep 28</time>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div className="relative pb-8">
-                        <span
-                            className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                            aria-hidden="true"
-                        ></span>
-                        <div className="relative flex space-x-3">
-                            <div>
-                                <span className="flex items-center justify-center w-8 h-8 bg-blue-500 rounded-full ring-8 ring-white">
-                                    {/* <!-- Heroicon name: thumb-up --> */}
-                                    <svg
-                                        className="w-5 h-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                <div>
-                                    <p className="text-sm text-gray-500">
-                                        Advanced to interview by{' '}
-                                        <a
-                                            href="#"
-                                            className="font-medium text-gray-900"
-                                        >
-                                            Bethany Blake
-                                        </a>
-                                    </p>
-                                </div>
-                                <div className="text-sm text-right text-gray-500 whitespace-nowrap">
-                                    <time dateTime="2020-09-30">Sep 30</time>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div className="relative pb-8">
-                        <div className="relative flex space-x-3">
-                            <div>
-                                <span className="flex items-center justify-center w-8 h-8 bg-green-500 rounded-full ring-8 ring-white">
-                                    {/* <!-- Heroicon name: check --> */}
-                                    <svg
-                                        className="w-5 h-5 text-white"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </span>
-                            </div>
-                            <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                <div>
-                                    <p className="text-sm text-gray-500">
-                                        Completed interview with{' '}
-                                        <a
-                                            href="#"
-                                            className="font-medium text-gray-900"
-                                        >
-                                            Katherine Snyder
-                                        </a>
-                                    </p>
-                                </div>
-                                <div className="text-sm text-right text-gray-500 whitespace-nowrap">
-                                    <time dateTime="2020-10-04">Oct 4</time>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+                </>
+            )}
+            {!isLoading && commits.length === 0 && (
+                <h1 className="mt-2 text-base text-center text-gray-300">
+                    There is no commit for the repository. Check the repository
+                    url, it must be a Github url.
+                </h1>
+            )}
+        </>
     );
 };
 
