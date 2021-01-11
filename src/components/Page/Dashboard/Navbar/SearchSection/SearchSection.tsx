@@ -39,7 +39,7 @@ const SearchSection = () => {
                     setSearch('');
                 }}
             >
-                <div className="absolute inset-0 bg-gray-500 opacity-75 "></div>
+                <div className="absolute inset-0 bg-gray-500 opacity-75 dark:bg-blueGray-800 "></div>
             </div>
             <div className="z-10 w-full px-2 lg:px-6">
                 <label htmlFor="search" className="sr-only">
@@ -61,7 +61,7 @@ const SearchSection = () => {
                     </div>
                     <input
                         id="search"
-                        className="block w-full py-2 pl-10 pr-3 leading-5 text-teal-100 placeholder-teal-200 bg-teal-400 bg-opacity-25 border border-transparent rounded-md focus:outline-none focus:bg-white focus:ring-1 focus:placeholder-gray-400 focus:text-gray-900 sm:text-sm focus:ring-primary focus:border-primary"
+                        className="block w-full py-2 pl-10 pr-3 leading-5 text-teal-100 placeholder-teal-200 bg-teal-400 bg-opacity-25 border border-transparent rounded-md focus:outline-none focus:bg-white dark:focus:bg-blueGray-500 focus:ring-1 focus:placeholder-gray-400 focus:text-gray-900 dark:focus:text-gray-200 sm:text-sm focus:ring-primary focus:border-primary"
                         placeholder="Search projects"
                         type="search"
                         onClick={() => {
@@ -83,7 +83,7 @@ const SearchSection = () => {
                         leaveTo="transform opacity-0 scale-95"
                     >
                         <ul
-                            className={`w-full absolute rounded shadow-sm h-auto bg-white py-2 mt-1 z-10 overflow-y-scroll`}
+                            className={`w-full absolute rounded shadow-sm h-auto bg-white dark:bg-blueGray-600 py-2 mt-1 z-10 overflow-y-scroll`}
                             style={{ scrollbarWidth: 'none' }}
                         >
                             {searchResult.map((element) => {

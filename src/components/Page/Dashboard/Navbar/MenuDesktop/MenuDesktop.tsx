@@ -72,7 +72,7 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                     >
                         <div className="absolute right-0 w-48 mt-2 origin-top-right rounded-md shadow-lg">
                             <div
-                                className="w-full py-1 bg-white rounded-md shadow-xs"
+                                className="w-full py-1 bg-white rounded-md shadow-xs dark:bg-blueGray-600"
                                 role="menu"
                                 aria-orientation="vertical"
                                 aria-labelledby="user-menu"
@@ -80,14 +80,14 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                                 {!user.github_account && (
                                     <Link
                                         to={links.profile.href}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-blueGray-500"
                                         role="menuitem"
                                     >
                                         View Profile
                                     </Link>
                                 )}
                                 <span
-                                    className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
+                                    className="flex items-center justify-between px-4 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-blueGray-500"
                                     role="menuitem"
                                     onClick={
                                         theme === 'dark'
@@ -135,7 +135,7 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                                 </span>
                                 <span
                                     onClick={() => handleLogout()}
-                                    className="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
+                                    className="block px-4 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-blueGray-500"
                                     role="menuitem"
                                 >
                                     Log Out

@@ -17,7 +17,7 @@ const ProjectItem = ({ project, onClick }: ProjectItemProps) => {
             key={project.slug}
             onClick={() => onClick && onClick()}
         >
-            <li className="relative z-auto py-5 pl-4 pr-6 hover:bg-gray-50 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
+            <li className="relative z-auto py-5 pl-4 pr-6 hover:bg-gray-50 dark:hover:bg-blueGray-700 sm:py-6 sm:pl-6 lg:pl-8 xl:pl-6">
                 <div className="flex items-center justify-between space-x-4">
                     <div className="min-w-0 space-y-3">
                         <div className="flex items-center space-x-3">

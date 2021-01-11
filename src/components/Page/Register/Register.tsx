@@ -97,8 +97,8 @@ const Register = () => {
     }, []);
 
     return (
-        <div className="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md text-blueGray-700">
+        <div className="flex flex-col justify-center min-h-screen py-12 bg-gray-50 dark:bg-blueGray-800 sm:px-6 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md text-blueGray-700 dark:text-gray-200">
                 <img
                     className="w-auto h-12 mx-auto"
                     src={logo}
@@ -119,7 +119,7 @@ const Register = () => {
                 </p>
             </div>
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+                <div className="px-4 py-8 bg-white shadow dark:bg-blueGray-700 sm:rounded-lg sm:px-10">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="space-y-6"

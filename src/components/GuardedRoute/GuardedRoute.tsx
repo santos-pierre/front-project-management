@@ -1,4 +1,4 @@
-import React, { ReactType } from 'react';
+import React, { ElementType } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { getRoute } from '../../routes/routes';
@@ -6,7 +6,7 @@ import { RootState } from '../../types/RooState';
 import checkAuthenticate from '../../utils/isAuthenticate';
 
 type GuardedRouteProps = {
-    component: ReactType;
+    component: ElementType;
     path?: string;
     exact?: boolean;
 };

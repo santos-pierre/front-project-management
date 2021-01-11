@@ -166,7 +166,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
                                     }).path
                                 }
                             >
-                                <span className="inline-flex items-center text-xs font-semibold text-primary hover:text-opacity-70">
+                                <span className="inline-flex items-center text-base font-semibold text-primary hover:text-opacity-70">
                                     <svg
                                         className="w-4 h-4 mr-2"
                                         fill="currentColor"
@@ -227,7 +227,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
                     <div className="mt-6 space-y-1 sm:mt-5">
                         <label
                             id="listbox-label"
-                            className="block text-sm font-medium leading-5 text-gray-700"
+                            className="block text-sm font-medium leading-5 text-blueGray-600 dark:text-gray-300"
                         >
                             Status
                         </label>
@@ -241,9 +241,9 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
                                     aria-haspopup="listbox"
                                     aria-expanded="true"
                                     aria-labelledby="listbox-label"
-                                    className={`"cursor-default relative w-full rounded-md border border-gray-300 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue ${
+                                    className={`"cursor-default relative w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-blueGray-600 bg-white pl-3 pr-10 py-2 text-left focus:outline-none focus:shadow-outline-blue ${
                                         show && 'focus:border-blue-300'
-                                    } transition ease-in-out duration-150 sm:text-sm sm:leading-5"`}
+                                    } sm:text-sm sm:leading-5"`}
                                 >
                                     <span className="block truncate">
                                         {selectedStatus.name}
@@ -266,7 +266,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
                                 </button>
                             </span>
                             <div
-                                className={`absolute mt-1 w-full rounded-md bg-white shadow-lg ${
+                                className={`absolute mt-1 w-full rounded-md bg-white dark:bg-blueGray-600 shadow-lg ${
                                     show ? 'block' : 'hidden'
                                 }`}
                             >
@@ -279,11 +279,11 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
                                             return (
                                                 <li
                                                     key={element[1].value}
-                                                    className={`group antialiased cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-primary ${
+                                                    className={`group antialiased cursor-pointer select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-primary ${
                                                         selectedStatus?.name ===
                                                         element[1].name
                                                             ? 'font-bold bg-primary text-white'
-                                                            : 'font-normal text-gray-900'
+                                                            : 'font-normal text-gray-900 dark:text-gray-300'
                                                     }`}
                                                     onClick={() => {
                                                         setSelectedStatus(
@@ -307,7 +307,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
                         <div className="flex flex-col space-y-2">
                             <label
                                 htmlFor="about"
-                                className="block text-sm font-medium leading-5 text-gray-700"
+                                className="block text-sm font-medium leading-5 text-blueGray-600 dark:text-gray-300"
                             >
                                 Description
                             </label>
@@ -315,7 +315,7 @@ export const FormGroup: FunctionComponent<FormGroupProjectProps> = ({
                                 <textarea
                                     id="about"
                                     rows={3}
-                                    className="w-full border border-gray-300 rounded-md shadow-sm sm:text-sm focus:border-blue-300 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-10"
+                                    className="w-full border border-gray-300 rounded-md shadow-sm dark:border-gray-600 dark:bg-blueGray-600 sm:text-sm focus:border-blue-300 focus:ring-2 focus:ring-blue-200 focus:ring-opacity-10"
                                     name="description"
                                     ref={register}
                                 ></textarea>

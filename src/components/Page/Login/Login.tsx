@@ -72,11 +72,11 @@ const Login = () => {
     }, []);
 
     return (
-        <div className="flex min-h-screen bg-white">
+        <div className="flex justify-center min-h-screen bg-white dark:bg-blueGray-800">
             <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-40">
                 <div className="w-full max-w-sm mx-auto lg:w-96">
                     {/* Header Title + Logo */}
-                    <div className="text-blueGray-700">
+                    <div className="text-blueGray-700 dark:text-gray-200">
                         <img
                             className="w-auto h-12"
                             src={logo}
@@ -105,7 +105,7 @@ const Login = () => {
                                         <a
                                             href={`${process.env.REACT_APP_API}/login/github`}
                                         >
-                                            <button className="inline-flex justify-center w-full px-4 py-2 space-x-2 text-sm font-medium text-gray-500 transition-colors duration-300 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-blueGray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:bg-black focus:text-white">
+                                            <button className="inline-flex justify-center w-full px-4 py-2 space-x-2 text-sm font-medium text-gray-500 transition-colors duration-300 bg-white border border-gray-300 rounded-md shadow-sm dark:bg-blueGray-600 dark:hover:bg-blueGray-800 dark:text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-black focus:bg-black focus:text-white">
                                                 <span>Sign in with GitHub</span>
                                                 <svg
                                                     className="w-5 h-5"
@@ -129,10 +129,10 @@ const Login = () => {
                                     className="absolute inset-0 flex items-center"
                                     aria-hidden="true"
                                 >
-                                    <div className="w-full border-t border-gray-300"></div>
+                                    <div className="w-full border-t border-gray-400"></div>
                                 </div>
                                 <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 text-gray-500 bg-white">
+                                    <span className="px-2 text-gray-400 bg-white dark:bg-blueGray-800">
                                         Or continue with
                                     </span>
                                 </div>
@@ -176,13 +176,6 @@ const Login = () => {
                         {/* END FORM  */}
                     </div>
                 </div>
-            </div>
-            <div className="relative flex-1 hidden w-0 lg:block">
-                <img
-                    className="absolute right-0 object-scale-down w-full h-full"
-                    src={imgLogin}
-                    alt="project management"
-                />
             </div>
             <Footer customClass="w-full absolute bottom-0" />
         </div>

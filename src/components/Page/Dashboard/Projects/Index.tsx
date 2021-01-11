@@ -24,14 +24,14 @@ const IndexProject = () => {
 
     return (
         <React.Fragment>
-            <div className="pt-4 pb-4 pl-4 pr-6 border-t border-b border-gray-200 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-6 xl:border-t-0">
+            <div className="pt-4 pb-4 pl-4 pr-6 border-t border-b border-gray-200 dark:border-gray-600 sm:pl-6 lg:pl-8 xl:pl-6 xl:pt-6 xl:border-t-0">
                 <div className="flex items-center">
                     <h1 className="flex-1 text-lg font-medium leading-7">
                         Projects
                     </h1>
                 </div>
             </div>
-            <ul className="relative z-0 border-b border-gray-200 divide-y divide-gray-200">
+            <ul className="relative z-0 border-b border-gray-200 divide-y divide-gray-200 dark:border-gray-600">
                 {isLoading ? (
                     <Loading />
                 ) : (

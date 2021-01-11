@@ -65,9 +65,7 @@ const IndexTask = () => {
             <div className="px-5 mt-1 mb-2 lg:mt-6 sm:mt-5">
                 <div className="flex flex-wrap items-center justify-between -mt-2 -ml-4 sm:flex-no-wrap">
                     <div className="mt-2 ml-4">
-                        <h3 className="text-lg font-medium leading-6 text-gray-900">
-                            Tasks
-                        </h3>
+                        <h3 className="text-lg font-medium leading-6">Tasks</h3>
                     </div>
                     <div className="flex-shrink-0 mt-2 ml-4">
                         <span
@@ -136,9 +134,9 @@ const IndexTask = () => {
                                                         : false
                                                 }
                                             >
-                                                <div className="absolute z-10 flex-col w-48 py-1 space-y-2 bg-white border border-gray-300 rounded-md shadow-lg right-3">
+                                                <div className="absolute z-10 flex-col w-48 py-1 space-y-2 border border-gray-300 rounded-md shadow-lg dark:border-gray-700 dark:bg-blueGray-700 right-3">
                                                     <div
-                                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                        className="block px-4 py-2 text-sm leading-5 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 dark:hover:bg-blueGray-500 focus:outline-none focus:bg-gray-100"
                                                         role="menuitem"
                                                         onClick={() => {
                                                             handleModalVisibility(
@@ -162,7 +160,7 @@ const IndexTask = () => {
                                                         </div>
                                                     </div>
                                                     <div
-                                                        className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                        className="block px-4 py-2 text-sm leading-5 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 dark:hover:bg-blueGray-500 focus:outline-none focus:bg-gray-100"
                                                         onClick={() =>
                                                             deleteTask(element)
                                                         }

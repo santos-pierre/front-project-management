@@ -6,7 +6,7 @@ interface PropType {
 
 const Footer = ({ customClass }: PropType) => {
     return (
-        <div className={`bg-white ` + customClass}>
+        <div className={`bg-white dark:bg-blueGray-800 ` + customClass}>
             <div className="max-w-screen-xl px-4 py-6 mx-auto sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
                 <div className="flex justify-center md:order-2">
                     <a

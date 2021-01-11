@@ -64,7 +64,7 @@ const Feeds = ({ project }: FeedsProps) => {
                                 <>
                                     <div className="relative">
                                         <span className="inline-block w-full rounded-md shadow-sm">
-                                            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md cursor-default focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
+                                            <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left border border-gray-300 rounded-md cursor-default dark:bg-blueGray-600 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
                                                 <span className="block truncate">
                                                     {currentBranche}
                                                 </span>
@@ -91,11 +91,11 @@ const Feeds = ({ project }: FeedsProps) => {
                                             leave="transition ease-in duration-100"
                                             leaveFrom="opacity-100"
                                             leaveTo="opacity-0"
-                                            className="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg"
+                                            className="absolute z-10 w-full mt-1 rounded-md shadow-lg"
                                         >
                                             <Listbox.Options
                                                 static
-                                                className="py-1 overflow-auto text-base leading-6 rounded-md shadow-xs max-h-60 focus:outline-none sm:text-sm sm:leading-5"
+                                                className="py-1 overflow-auto text-base leading-6 bg-white rounded-md shadow-xs dark:bg-blueGray-600 max-h-60 focus:outline-none sm:text-sm sm:leading-5"
                                             >
                                                 {branches &&
                                                     branches.map((branche) => (
@@ -111,7 +111,7 @@ const Feeds = ({ project }: FeedsProps) => {
                                                                     className={`${
                                                                         active
                                                                             ? 'text-white bg-blue-500'
-                                                                            : 'text-gray-900'
+                                                                            : ''
                                                                     } cursor-default select-none relative py-2 pl-8 pr-4`}
                                                                 >
                                                                     <span

@@ -20,14 +20,14 @@ const FeedItem = ({ commit, isLast }: FeedItemProps) => {
                 {/* Line between feeed */}
                 {!isLast && (
                     <span
-                        className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
+                        className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200 dark:bg-blueGray-600"
                         aria-hidden="true"
                     ></span>
                 )}
 
                 <div className="relative flex space-x-3">
                     <div>
-                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-support ring-8 ring-white">
+                        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-support ring-8 dark:ring-blueGray-800 ring-white">
                             {/* <!-- Heroicon name: user --> */}
                             <svg
                                 className="w-5 h-5 text-white"

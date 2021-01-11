@@ -36,7 +36,7 @@ const UserInfo = () => {
                                 )}
                             </div>
                             <div className="space-y-1">
-                                <div className="text-sm font-medium leading-5 text-gray-900">
+                                <div className="text-sm font-medium leading-5">
                                     {currentUser.name}
                                 </div>
                             </div>
