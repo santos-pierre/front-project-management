@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default () => {
+const Loading = () => {
     return (
-        <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="flex items-center justify-center min-h-screen">
             <svg
                 className="w-10 h-10 mr-3 -ml-1 text-primary animate-spin"
                 xmlns="http://www.w3.org/2000/svg"
@@ -26,3 +26,5 @@ export default () => {
         </div>
     );
 };
+
+export default Loading;

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../../../types/RooState';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
+import { currentTheme } from '../../../../../redux/theme/themeSelectors';
+import { currentUser } from '../../../../../redux/user/userSelectors';
+import { toogleTheme } from '../../../../../redux/theme/themeAction';
 
 type MenuDesktopProps = {
     links: any;
@@ -11,8 +13,13 @@ type MenuDesktopProps = {
 
 const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-
-    const user = useSelector((state: RootState) => state.user.currentUser);
+    const dispatch = useDispatch();
+    const user = useSelector(currentUser);
+    const theme = useSelector(currentTheme);
+    const setTheme = useCallback(
+        (theme: string) => dispatch(toogleTheme(theme)),
+        [dispatch]
+    );
 
     return (
         <div className="hidden lg:block lg:w-80">
@@ -25,7 +32,7 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                         Dashboard
                     </NavLink>
                 </div>
-                <div className="relative flex-shrink-0 ml-4">
+                <div className="relative z-50 flex-shrink-0 ml-4">
                     <div>
                         <button
                             onBlur={() => setIsOpen(false)}
@@ -59,7 +66,7 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                         enter="transition ease-out duration-100"
                         enterFrom="transform opacity-0 scale-95"
                         enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-100"
+                        leave="transition ease-in duration-300"
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
@@ -79,6 +86,53 @@ const MenuDesktop = ({ links, handleLogout }: MenuDesktopProps) => {
                                         View Profile
                                     </Link>
                                 )}
+                                <span
+                                    className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"
+                                    role="menuitem"
+                                    onClick={
+                                        theme === 'dark'
+                                            ? () => setTheme('light')
+                                            : () => setTheme('dark')
+                                    }
+                                >
+                                    {theme === 'dark' ? (
+                                        <>
+                                            Light Theme
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                className="w-5 h-5"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                                                />
+                                            </svg>
+                                        </>
+                                    ) : (
+                                        <>
+                                            Dark Theme
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                className="w-5 h-5"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                                                />
+                                            </svg>
+                                        </>
+                                    )}
+                                </span>
                                 <span
                                     onClick={() => handleLogout()}
                                     className="block px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-100"

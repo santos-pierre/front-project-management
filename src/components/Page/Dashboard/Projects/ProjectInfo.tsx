@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { getRoute } from '../../../../routes/routes';
 import MenuDropdown from '../../../MenuDropdown/MenuDropdown';
 import projectsClient from '../../../../api/projects/projectsClient';
+import TextInfo from './assets/TextInfo';
 
 type ProjectInfoProps = {
     project: ProjectType;
@@ -29,7 +30,7 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                     <div className="space-y-8 sm:space-y-0 sm:flex sm:justify-between sm:items-center xl:block xl:space-y-8">
                         <div className="flex items-center space-x-3">
                             <div className="w-full space-y-1">
-                                <div className="flex justify-between mb-3 text-lg font-medium leading-5 text-gray-900">
+                                <div className="flex justify-between mb-3 text-lg font-medium leading-5">
                                     {project.title}
                                     <div className="relative flex">
                                         <button
@@ -49,9 +50,9 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                             </svg>
                                         </button>
                                         <MenuDropdown show={showMenu}>
-                                            <div className="absolute z-10 flex-col w-48 py-1 space-y-2 bg-white border border-gray-300 rounded-md shadow-lg right-3">
+                                            <div className="absolute z-10 flex-col w-48 py-1 space-y-2 border border-gray-300 rounded-md shadow-lg dark:border-gray-700 dark:bg-blueGray-700 right-3">
                                                 <div
-                                                    className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                    className="block px-4 py-2 text-sm leading-5 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 dark:hover:bg-blueGray-500 focus:outline-none focus:bg-gray-100"
                                                     role="menuitem"
                                                 >
                                                     <Link
@@ -89,7 +90,7 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                                     </Link>
                                                 </div>
                                                 <div
-                                                    className="block px-4 py-2 text-sm leading-5 text-gray-700 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                                                    className="block px-4 py-2 text-sm leading-5 transition duration-150 ease-in-out cursor-pointer hover:bg-gray-100 dark:hover:bg-blueGray-500 focus:outline-none focus:bg-gray-100"
                                                     onClick={() =>
                                                         deleteTask(project)
                                                     }
@@ -117,13 +118,13 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                         </MenuDropdown>
                                     </div>
                                 </div>
-                                <a
-                                    href={project.repository_url}
-                                    target="_blanck"
-                                    className="group flex items-center space-x-2.5 text-gray-500 "
+                                <TextInfo
+                                    text={project.repository_url}
+                                    as="a"
+                                    link_url={project.repository_url}
                                 >
                                     <svg
-                                        className="w-4 h-4 text-gray-400 group-hover:text-gray-500"
+                                        className="w-4 h-4"
                                         viewBox="0 0 18 18"
                                         fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -135,14 +136,8 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                             fill="currentcolor"
                                         />
                                     </svg>
-                                    <div
-                                        className="w-64 text-sm font-medium leading-5 text-gray-500 truncate group-hover:text-gray-900 lg:w-40"
-                                        title={project.repository_url}
-                                    >
-                                        {project.repository_url}
-                                    </div>
-                                </a>
-                                <span className="group flex items-center space-x-2.5 text-gray-500">
+                                </TextInfo>
+                                <TextInfo text={project.author}>
                                     <svg
                                         className="w-4 h-4"
                                         fill="none"
@@ -157,11 +152,16 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                             d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
                                         />
                                     </svg>
-                                    <div className="text-sm font-medium leading-5 text-gray-500 group-hover:text-gray-900">
-                                        {project.author}
-                                    </div>
-                                </span>
-                                <span className="group flex items-center space-x-2.5 text-gray-500">
+                                </TextInfo>
+                                <TextInfo
+                                    text={
+                                        project.deadline
+                                            ? moment
+                                                  .unix(project.deadline)
+                                                  .format('DD-MM-YYYY')
+                                            : 'DD-MM-YYYY'
+                                    }
+                                >
                                     <svg
                                         className="w-4 h-4"
                                         fill="currentColor"
@@ -174,15 +174,13 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                             clipRule="evenodd"
                                         />
                                     </svg>
-                                    <div className="text-sm font-medium leading-5 text-gray-500 group-hover:text-gray-900">
-                                        {project.deadline
-                                            ? moment
-                                                  .unix(project.deadline)
-                                                  .format('DD-MM-YYYY')
-                                            : 'DD-MM-YYYY'}
-                                    </div>
-                                </span>
-                                <span className="group flex items-center space-x-2.5 text-gray-500">
+                                </TextInfo>
+                                <TextInfo
+                                    text={upperFirst(project.status).replace(
+                                        '_',
+                                        ' '
+                                    )}
+                                >
                                     <svg
                                         className="w-4 h-4"
                                         fill="currentColor"
@@ -191,13 +189,7 @@ const ProjectInfo = ({ project }: ProjectInfoProps) => {
                                     >
                                         <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
                                     </svg>
-                                    <div className="text-sm font-medium leading-5 text-gray-500 group-hover:text-gray-900">
-                                        {upperFirst(project.status).replace(
-                                            '_',
-                                            ' '
-                                        )}
-                                    </div>
-                                </span>
+                                </TextInfo>
                                 {project.description && (
                                     <p className="pr-2 text-sm font-medium text-gray-500">
                                         {project.description}

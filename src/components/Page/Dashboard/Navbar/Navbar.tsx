@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-
 import logo from './../../../../assets/img/logo_svg.svg';
 import SearchSection from './SearchSection/SearchSection';
 import MenuDesktop from './MenuDesktop/MenuDesktop';
@@ -7,7 +6,6 @@ import LogoSection from './LogoSection/LogoSection';
 import MenuButtonMobile from './MenuButtonMobile/MenuButtonMobile';
 import MenuMobile from './MenuMobile/MenuMobile';
 import usersClient from '../../../../api/users/usersClient';
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { UserType } from '../../../../types/UserType';
 import { setCurrentUser } from '../../../../redux/user/userAction';
@@ -21,7 +19,6 @@ const defaultUser: UserType = {
 
 function Navbar() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const history = useHistory();
     const dispatch = useDispatch();
 
     const setUser = useCallback(

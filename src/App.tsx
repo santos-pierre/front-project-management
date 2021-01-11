@@ -3,14 +3,16 @@ import RouterSwitch from './components/RouterSwitch/RouterSwitch';
 import cookiesClient from './api/cookies/cookiesClient';
 import { UserType } from './types/UserType';
 import { setCurrentUser } from './redux/user/userAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import usersClient from './api/users/usersClient';
 import checkAuthenticate from './utils/isAuthenticate';
 import Loading from './components/Loading/Loading';
+import { currentTheme } from './redux/theme/themeSelectors';
 
 const App = () => {
     const dispatch = useDispatch();
     const [loading, setIsLoading] = useState(true);
+    const theme = useSelector(currentTheme);
 
     const setUser = useCallback(
         (user: UserType) => {
@@ -45,7 +47,9 @@ const App = () => {
         authGithub();
     }, [setUser]);
 
-    return <div>{loading ? <Loading /> : <RouterSwitch />}</div>;
+    return (
+        <div className={theme}>{loading ? <Loading /> : <RouterSwitch />}</div>
+    );
 };
 
 export default App;
